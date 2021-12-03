@@ -1,0 +1,56 @@
+{
+  "name": "projeto-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.11.1",
+    "@material-ui/icons": "^4.9.1",
+    "@syncfusion/ej2-react-navigations": "^18.4.31",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-datepicker": "^3.1.8",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/react-select": "3.0.26",
+    "@types/styled-components": "^5.1.2",
+    "@types/yup": "^0.29.6",
+    "@unform/core": "^2.1.6",
+    "@unform/web": "^2.1.6",
+    "axios": "^0.20.0",
+    "polished": "^3.6.6",
+    "proptypes": "^1.1.0",
+    "react": "^17.0.1",
+    "react-datepicker": "^3.7.0",
+    "react-dom": "^17.0.1",
+    "react-favicon": "^0.0.18",
+    "react-icons": "^3.11.0",
+    "react-loader-spinner": "^4.0.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-select": "3.1.1",
+    "react-spring": "^8.0.27",
+    "styled-components": "^5.1.1",
+    "typescript": "3.9",
+    "uuidv4": "^6.2.10",
+    "yup": "^0.29.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {}
+}
