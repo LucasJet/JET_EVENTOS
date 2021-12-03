@@ -3,7 +3,6 @@ import { Switch } from 'react-router-dom';
 
 import Route from './Route';
 
-import SignIn from '../pages/SignIn';
 import Dashboard from '../pages/Dashboard';
 import Expenses from '../pages/Expenses/Get';
 import Recipes from '../pages/Recipes/Get';
@@ -15,10 +14,9 @@ import CreateRecipeMov from '../pages/Movements/CreateRecipeMov';
 import CreateExpenseMov from '../pages/Movements/CreateExpenseMov';
 import UpdateExpenseMov from '../pages/Movements/UpdateExpenseMov';
 
-const Routes: React.FC = () => (
+const Routes = () => (
   <Switch> 
-    <Route path="/" exact component={SignIn} />
-    <Route path="/dashboard" exact component={Dashboard} isPrivate />
+    <Route path="/dashboard" exact component={Dashboard} />
     <Route path="/despesas" exact component={Expenses} isPrivate />
     <Route path="/receitas" exact component={Recipes} isPrivate />
     <Route path="/criarReceita" exact component={CreateRecipe} isPrivate />
