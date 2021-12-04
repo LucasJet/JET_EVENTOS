@@ -3,21 +3,27 @@ import React, { useState } from 'react';
 
 import { Container, ContainerTab } from './styles';
 
+import { useHistory } from 'react-router-dom'
+
 const SideBar = () => {
+  const history = useHistory()
   const [selectedTab, setSelectedTab] = useState(0)
 
   const SideBarTabs = [
     {
       title: 'Dashboard',
-      icon: require('../../assets/icon-dashboard.svg')
+      icon: require('../../assets/icon-dashboard.svg'),
+      url: '/dashboard'
     },
     {
       title: 'Eventos',
-      icon: require('../../assets/icon-events.svg')
+      icon: require('../../assets/icon-events.svg'),
+      url: '/eventos'
     },
     {
       title: 'Publicações',
-      icon: require('../../assets/icon-publications.svg')
+      icon: require('../../assets/icon-publications.svg'),
+      url: '/publicacoes'
     },
   ]
 
@@ -34,7 +40,12 @@ const SideBar = () => {
       <img id="logo-jet" src={ require('../../assets/logo-jet.svg') } alt="Logo jet" />
 
       {SideBarTabs.map((tab, index) => (
-        <ContainerTab onClick={ () => setSelectedTab(index) } style={ selectedTab === index ? styleSelectedTab : {} }>
+        <ContainerTab
+          onClick={ () => {
+            setSelectedTab(index)
+            history.push(tab.url)
+          } }
+          style={ selectedTab === index ? styleSelectedTab : {} }>
           <img src={ tab.icon } alt={ tab.title } />
           <span>{ tab.title }</span>
         </ContainerTab>

@@ -9,6 +9,9 @@ import {
   Card,
   InfoCard,
   InfoTotal,
+  ContainerLastEvents,
+  HeaderLastEvents,
+  ListLastEvents,
 } from './styles';
 
 const Dashboard = () => {
@@ -45,6 +48,21 @@ const Dashboard = () => {
     },
   ]
 
+  const lastEvents = [
+    {
+      title: 'Atitude empreendedora II',
+      date: '01/03/2021'
+    },
+    {
+      title: 'Atitude empreendedora I',
+      date: '01/03/2020'
+    },
+    {
+      title: 'Jovem e Tecnologia',
+      date: '01/07/2019'
+    },
+  ]
+
   return (
     <Container>
       <SideBar/>
@@ -69,6 +87,24 @@ const Dashboard = () => {
               </Card>
             ))}
           </ContainerCards>
+          <ContainerLastEvents>
+            <HeaderLastEvents>
+              <h3>Últimos eventos</h3>
+
+              <select name="select-orderby">
+                <option value="ascendente" selected>Ascendente</option>
+                <option value="descendente">Descendente</option>
+              </select>
+            </HeaderLastEvents>
+
+            <hr />
+
+            <ListLastEvents>
+              {lastEvents.map((event) => (
+                <span>{event.title} -&nbsp;<b>{event.date}</b></span>
+              ))}
+            </ListLastEvents>
+          </ContainerLastEvents>
         </ContainerGraphics>
       </ContainerDashboard>
     </Container>

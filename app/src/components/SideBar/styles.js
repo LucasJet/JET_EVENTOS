@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const Container = styled.div`
   grid-area: 1 / 1 / 6 / 2;
   background: #494B57;
-  width: 8vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -12,11 +12,13 @@ export const Container = styled.div`
 
   div > img {
     margin: 15px 0px 0px 0px;
+    min-width: 37px;
+    width: 25%;
   }
 
   div > span {
     font-family: Basic;
-    font-size: 14px;
+    font-size: 1em;
     line-height: 18px;
     letter-spacing: 0.01em;
     color: #FFFFFF;
@@ -32,7 +34,6 @@ export const ContainerTab = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
   cursor: pointer;
   width: 100%;
 `

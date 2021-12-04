@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   grid-area: 1 / 2 / 2 / 6;
-  width: 100vw;
+  width: 100%;
   height: 100%;
+  background: white;
 
   display: flex;
   flex-direction: row;
