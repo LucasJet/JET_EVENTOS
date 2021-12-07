@@ -2,10 +2,12 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 0.5fr repeat(4, 1fr);
-  grid-template-rows: 0.5fr repeat(4, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-template-columns: 0.2fr 2fr;
+  grid-template-rows: 5.3vw;
+  grid-template-areas:
+      "sidebar navbar"
+      "sidebar containerGrid"
+      "sidebar containerGrid";
   min-height: 100vh;
   background: #F8F8FB;
 `;
@@ -13,9 +15,11 @@ export const Container = styled.div`
 export const ContainerDashboard = styled.div`
   grid-area: 2 / 2 / 6 / 6;
   padding: 15px 35px;
+  grid-area: containerGrid;
 
   h1 {
     font-size: 2em;
+    padding: 15px 0px;
   }
 `;
 

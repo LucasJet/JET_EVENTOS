@@ -5,6 +5,7 @@ export const Container = styled.div`
   background: #494B57;
   width: 100%;
   height: 100%;
+  grid-area: sidebar;
 
   display: flex;
   flex-direction: column;

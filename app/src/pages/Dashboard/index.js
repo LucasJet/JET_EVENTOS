@@ -75,7 +75,7 @@ const Dashboard = () => {
           <ContainerCards>
             {graphicsCards.map((card) => (
               <Card>
-                <img src={ card.icon } />
+                <img src={ card.icon } alt="Icon card"/>
 
                 <InfoCard>
                   <InfoTotal>

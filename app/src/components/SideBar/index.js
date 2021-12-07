@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Container, ContainerTab } from './styles';
 
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const SideBar = () => {
   const history = useHistory()
-  const [selectedTab, setSelectedTab] = useState(0)
+  const location = useLocation()
 
   const SideBarTabs = [
     {
@@ -42,10 +41,11 @@ const SideBar = () => {
       {SideBarTabs.map((tab, index) => (
         <ContainerTab
           onClick={ () => {
-            setSelectedTab(index)
             history.push(tab.url)
           } }
-          style={ selectedTab === index ? styleSelectedTab : {} }>
+          style={ location.pathname === tab.url ? styleSelectedTab : {} }
+          key={ index }
+        >
           <img src={ tab.icon } alt={ tab.title } />
           <span>{ tab.title }</span>
         </ContainerTab>

@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   background: white;
+  grid-area: navbar;
 
   display: flex;
   flex-direction: row;
