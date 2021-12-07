@@ -6,15 +6,21 @@ const findAll = (async (_request, response) => {
 });
 
 const create = (async (request, response) => {
-    const { name, email, password } = request.body;
+    const { fullname, date_birth, email, city, school, password, active, role } = request.body;
     const { _id, ...user } = await UsersServices.create({
-        name, email, password,
+        fullname, date_birth, email, city, school, password, active, role
     });
 
     response.status(201).json({ user: {
-        name: user.name,
+        fullname: user.fullname,
+        date_birth: user.date_birth,
         email: user.email,
+        city: user.city,
+        school: user.school,
+        password: user.password,
+        active: user.active,
         role: user.role,
+        created_at: new Date(),
         _id,
     } });
 });
@@ -28,8 +34,13 @@ const createAdmin = (async (request, response) => {
     );
 
     response.status(201).json({ user: {
-        name: user.name,
+        fullname: user.fullname,
+        date_birth: user.date_birth,
         email: user.email,
+        city: user.city,
+        school: user.school,
+        password: user.password,
+        active: user.active,
         role: user.role,
         _id,
     } });

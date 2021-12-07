@@ -14,13 +14,15 @@ import UpdateExpense from '../pages/Expenses/Update';
 import CreateRecipeMov from '../pages/Movements/CreateRecipeMov';
 import CreateExpenseMov from '../pages/Movements/CreateExpenseMov';
 import UpdateExpenseMov from '../pages/Movements/UpdateExpenseMov';
+import Homepage from '../pages/Homepage';
 
 const Routes: React.FC = () => (
   <Switch> 
-    <Route path="/" exact component={SignIn} />
+    <Route path="/" component={Homepage} />
+    <Route path="/SignIn" exact component={SignIn} />
     <Route path="/dashboard" exact component={Dashboard} isPrivate />
     <Route path="/despesas" exact component={Expenses} isPrivate />
-    <Route path="/receitas" exact component={Recipes} isPrivate />
+    <Route path="/receitas" exact component={Recipes} />
     <Route path="/criarReceita" exact component={CreateRecipe} isPrivate />
     <Route path="/atualizarReceita/:_id" exact component={UpdateRecipe} isPrivate />
     <Route path="/criarDespesa" exact component={CreateExpense} isPrivate />
