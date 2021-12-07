@@ -9,7 +9,7 @@ const findByEmail = async (email) => UserModel.findByEmail(email);
 const auth = async (loginData) => {
     const { error } = LoginSchema.validate(loginData);
     if (error) {
-        throw new AppError('All fields must be filled', 401);
+        throw new AppError('Todos os campos devem ser preenchidos', 401);
     }
 
     const { email, password } = loginData;
@@ -17,7 +17,7 @@ const auth = async (loginData) => {
     const userLogin = await findByEmail(email);
 
     if (!userLogin || userLogin.password !== password) {
-        throw new AppError('Incorrect username or password', 401);
+        throw new AppError('Usuário ou senha incorretos.', 401);
     }
 
     const { _id, role } = userLogin;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom'
 
 import SideBar from '../../components/SideBar';
 import Navbar from '../../components/Navbar';
@@ -15,6 +16,8 @@ import {
 } from './styles';
 
 const Events = () => {
+  const history = useHistory()
+
   const dataListEvents = [
     {
       img: require('../../assets/lab-direito-onto.png'),
@@ -68,7 +71,9 @@ const Events = () => {
       <ContainerEvents>
         <ContainerHeader>
           <h1>Eventos recentes</h1>
-          <button>Criar Evento</button>
+          <button onClick={ () => {
+            history.push('criar-eventos')
+          } }>Criar Evento</button>
         </ContainerHeader>
 
         <ListEvents>

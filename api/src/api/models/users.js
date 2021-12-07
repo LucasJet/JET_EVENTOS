@@ -2,7 +2,7 @@ const { connection } = require('./conn');
 
 const getUsersCollection = async () => {
   const conn = await connection();
-  return conn.collection('users');
+  return conn.collection('user');
 };
 
 const findAll = async () => {

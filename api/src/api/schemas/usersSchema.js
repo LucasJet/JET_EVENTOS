@@ -1,8 +1,12 @@
 const joi = require('joi');
 
 module.exports = joi.object({
-  name: joi.string().required().max(100),
+  fullname: joi.string().required().max(100),
+  date_birth: joi.date(),
   email: joi.string().required().email().max(100),
+  city: joi.string().required().max(100),
+  school: joi.string().required().max(100),
   password: joi.string().required().max(100),
-  role: joi.string().default('user').max(5),
+  active: joi.bool().required(),
+  role: joi.string().default('student').max(7),
 });

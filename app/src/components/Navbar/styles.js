@@ -17,6 +17,7 @@ export const Container = styled.div`
   img {
     margin: 0px 15px;
     cursor: pointer;
+    width: 2%;
   }
 
   hr {
@@ -27,6 +28,7 @@ export const Container = styled.div`
 
   #logo-avatar {
     margin: 0px 0px 0px 15px;
+    width: 3%;
   }
 `;
 
@@ -35,13 +37,13 @@ export const ContainerName = styled.div`
 
   h3 {
     color: #000000;
-    font-size: 18px;
     line-height: 18px;
     letter-spacing: 0.01em;
+    font-size: 1.4em;
   }
 
   span {
-    font-size: 12px;
+    font-size: 1.1em;
     line-height: 15px;
     letter-spacing: 0.01em;
     color: #A6ACBE;

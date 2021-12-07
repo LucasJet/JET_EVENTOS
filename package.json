@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "joi-date-extensions": "^1.2.0"
+  }
+}

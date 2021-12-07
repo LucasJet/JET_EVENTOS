@@ -1,36 +1,39 @@
-const RecipesServices = require('../services/recipesService');
+const EventServices = require('../services/eventsService');
 
 const findAll = (async (_request, response) => {
-    const results = await RecipesServices.findAll();
+    const results = await EventServices.findAll();
     response.json(results);
 });
 
 const findById = (async (request, response) => {
     const { id } = request.params; 
    
-    const result = await RecipesServices.findById(id);
+    const result = await EventServices.findById(id);
 
     if (!result) {
-        response.status(404).json({ message: 'recipe not found' });
+        response.status(404).json({ message: 'Evento não encontrado' });
     } else {
         response.json(result);
     }
 });
 
 const create = (async (request, response) => {
-    const { name, ingredients, preparation } = request.body;
+    const { title, description, date_from, date_to, hour_from, hour_to, required } = request.body;
     const { _id: user } = request.user;
 
-    const { _id, ...recipe } = await RecipesServices.create({
-        name, ingredients, preparation, userId: user.toString(),
+    const { _id, ...event } = await EventServices.create({
+        title, description, date_from, date_to, hour_from, hour_to, required, userId: user.toString(),
     });
 
     response.status(201).json({
-        recipe: {
-            name: recipe.name,
-            ingredients: recipe.ingredients,
-            preparation: recipe.preparation,
-            userId: recipe.userId,
+        event: {
+            title: event.title,
+            description: event.description,
+            date_from: event.date_from,
+            date_to: event.date_to,
+            hour_from: event.hour_from,
+            hour_to: event.hour_to,
+            required: event.required,
             _id,
         },
     });
@@ -41,7 +44,7 @@ const edit = (async (request, response) => {
     const { _id: user, role } = request.user;
 
     request.body.userId = user.toString();
-    const results = await RecipesServices.edit(id, request.body, role);
+    const results = await EventServices.edit(id, request.body, role);
     response.json(results);
 });
 
@@ -52,7 +55,7 @@ const createImage = (async (request, response) => {
 
     const fullUrl = `${request.get('host')}/src/uploads/${image}`;
     
-    const results = await RecipesServices.createImage(id, fullUrl, user.toString(), role);
+    const results = await EventServices.createImage(id, fullUrl, user.toString(), role);
     response.json(results);
 });
 
@@ -60,7 +63,7 @@ const remove = (async (request, response) => {
     const { id } = request.params;
     const { _id: user, role } = request.user;
 
-    await RecipesServices.remove(id, user.toString(), role);
+    await EventServices.remove(id, user.toString(), role);
 
     response.status(204).json({});
 });
