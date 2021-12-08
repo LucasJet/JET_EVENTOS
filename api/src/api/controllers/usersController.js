@@ -69,35 +69,8 @@ const getDashboard = (async (_request, response) => {
     const students = users.filter(element => element.role == "student");
     const studentsBySeason = users.filter(element => element.role == "student" && element.active );
     const events = await EventServices.findAll();
-    // const userEvents = await UserEventServices.findAll();
-    // const present = 0;
-    // const away = 0;
 
-    // studentsBySeason.forEach(user => {
-    //     const flag = false;
-    //     const userEventsFilter = userEvents.filter(element => element.status == true);
-        
-    //     console.log(userEventsFilter)
-    //     userEventsFilter.forEach(userEvent => {
-    //         if (userEvent.status == false) {
-    //             flag = true;
-    //             console.log("Chegou aqui");
-    //         } else {
-    //             return false;
-    //         }
-    //     });
-
-    //     if(flag === true){
-    //         away += 1;
-    //     }else{
-    //         present += 1;
-    //     }
-    // })
-
-    // console.log(away, present);
-
-    // const percentPresent = (present * 100) / studentsBySeason.length;
-    // const awayPercent = (away * 100) / studentsBySeason.length;
+    console.log(students.length)
 
     const arrey = [{
         title: 'Alunos Matriculados',

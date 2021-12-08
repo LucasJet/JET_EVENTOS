@@ -12,7 +12,7 @@ router.get('/dashboard/getDashboard', UsersControllers.getDashboard);
 
 router.put('/:id', authenticatedUser, UsersControllers.edit);
 
-router.post('/', authenticatedUser,UsersControllers.create);
+router.post('/',UsersControllers.create);
 router.post('/admin', authenticatedUser, UsersControllers.createAdmin);
 
 module.exports = router;
