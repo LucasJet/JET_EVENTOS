@@ -70,7 +70,11 @@ const getDashboard = (async (_request, response) => {
     const studentsBySeason = users.filter(element => element.role == "student" && element.active );
     const events = await EventServices.findAll();
 
-    console.log(students.length)
+    let soma = 0;
+    events.forEach((event) => {
+        soma += EventServices.calculateDiffTime(event.hour_from, event.hour_to);
+    });
+    const hours = soma / 60;
 
     const arrey = [{
         title: 'Alunos Matriculados',
@@ -94,7 +98,7 @@ const getDashboard = (async (_request, response) => {
     },
     {
         title: 'Horas utilizadas em eventos',
-        total: events.length,
+        total: hours,
         percent: null,
     },
     ]
