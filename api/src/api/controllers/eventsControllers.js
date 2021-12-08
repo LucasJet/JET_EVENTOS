@@ -14,13 +14,10 @@ const getEvent = (async (request, response) => {
     const userEvents = await UserEventServices.findAll();
     const { _id: user } = request.user;
     
-    console.log(user);
-
     events.forEach(event => {
         let userEvent = userEvents.find(element => element.userId == user && element.eventId == event._id);
 
         if (userEvent){
-            console.log(event._id, event.userId);
             event.status = userEvent.status;
         }else{
             event.status = 'Pendente';

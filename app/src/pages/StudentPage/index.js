@@ -69,10 +69,6 @@ const Events = () => {
   }
 
   useEffect(() => {
-    console.log(dataEvents);
-  }, [dataEvents])
-
-  useEffect(() => {
     buscarEventos()
     buscarPublicacoes()
   }, [])
@@ -100,6 +96,11 @@ const Events = () => {
       }
 
       await api.post('/userEvents', body)
+
+      addToast({
+        type: 'success',
+        title: 'Salvo!',
+      });
     } catch (error) {
       setIsLoaderActive(false)
       addToast({
@@ -109,10 +110,6 @@ const Events = () => {
       });
     } finally {
       setIsLoaderActive(false)
-      addToast({
-        type: 'success',
-        title: 'Salvo!',
-      });
     }
   }
 
@@ -130,6 +127,10 @@ const Events = () => {
           <ContainerHeader>
             <h1>Eventos recentes</h1>
           </ContainerHeader>
+
+          {!!dataEvents && dataEvents.length === 0 && (
+            <h4>Não há eventos ainda.</h4>
+          )}
 
           <ListEvents>
             {!!dataEvents && dataEvents.map((event, index) => (
@@ -185,6 +186,10 @@ const Events = () => {
           <ContainerHeader>
             <h1>Publicações recentes</h1>
           </ContainerHeader>
+
+          {!!dataPublications && dataPublications.length === 0 && (
+            <h4>Não há publicações ainda.</h4>
+          )}
 
           <ListPublications>
             {!!dataPublications && dataPublications.map((publication, index) => (

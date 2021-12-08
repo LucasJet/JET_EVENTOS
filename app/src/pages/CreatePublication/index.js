@@ -32,6 +32,11 @@ const CreatePublication = () => {
       }
       
       await api.post('/publications', body);
+
+      addToast({
+        type: 'success',
+        title: 'Publicação criada com sucesso!',
+      });
     } catch (error) {
       setIsLoaderActive(false)
       addToast({
@@ -41,10 +46,6 @@ const CreatePublication = () => {
       });
     } finally {
       setIsLoaderActive(false)
-      addToast({
-        type: 'success',
-        title: 'Publicação criada com sucesso!',
-      });
 
       limparCampos()
     }

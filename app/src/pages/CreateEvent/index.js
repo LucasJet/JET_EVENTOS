@@ -48,6 +48,11 @@ const CreateEvent = () => {
       }
   
       await api.post('/events', body);
+      
+      addToast({
+        type: 'success',
+        title: 'Evento criado com sucesso!',
+      });
     } catch (error) {
       setIsLoaderActive(false)
       addToast({
@@ -57,11 +62,6 @@ const CreateEvent = () => {
       });
     } finally {
       setIsLoaderActive(false)
-      addToast({
-        type: 'success',
-        title: 'Evento criado com sucesso!',
-      });
-
       limparCampos()
     }
   }

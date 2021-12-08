@@ -36,8 +36,6 @@ const CreateEvent = () => {
       setIsLoaderActive(true)
       let formatedData = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 
-      console.log(document.getElementById('email'));
-  
       const body = {
         fullname: document.getElementById('fullname').value,
         date_birth: formatedData,
@@ -48,6 +46,11 @@ const CreateEvent = () => {
       }
   
       await api.post('/users', body);
+
+      addToast({
+        type: 'success',
+        title: 'Usuário criado com sucesso!',
+      });
     } catch (error) {
       setIsLoaderActive(false)
       addToast({
@@ -57,11 +60,6 @@ const CreateEvent = () => {
       });
     } finally {
       setIsLoaderActive(false)
-      addToast({
-        type: 'success',
-        title: 'Usuário criado com sucesso!',
-      });
-
       limparCampos()
     }
   }

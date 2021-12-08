@@ -125,6 +125,10 @@ const Events = () => {
     return buttons
   }
 
+  useEffect(() => {
+    console.log(quantityEvents);
+  }, [quantityEvents])
+
   return (
     <Container>
       <SideBar/>
@@ -143,6 +147,11 @@ const Events = () => {
             } }>Criar Evento</button>
           )}
         </ContainerHeader>
+
+
+        {quantityEvents === 0 && (
+          <h4>Não há eventos ainda.</h4>
+        )}
 
         <ListEvents>
           {!!dataEvents && dataEvents.map((event, index) => (

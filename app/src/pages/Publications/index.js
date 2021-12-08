@@ -149,6 +149,10 @@ const Publications = () => {
             } }>Criar Publicação</button>
           ) }
         </ContainerHeader>
+        
+        {quantityPublications === 0 && (
+          <h4>Não há publicações ainda.</h4>
+        )}
 
         <ListPublications>
           {!!dataPublications && dataPublications.map((event, index) => (

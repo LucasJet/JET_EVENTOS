@@ -59,10 +59,6 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    console.log(dataDashboard);
-  }, [dataDashboard])
-
-  useEffect(() => {
     buscarEventos()
     buscarDataDashboard()
   }, [])

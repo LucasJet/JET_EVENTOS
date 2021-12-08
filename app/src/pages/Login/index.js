@@ -25,6 +25,11 @@ const Login = () => {
       });
 
       history.push('/inicio');
+
+      addToast({
+        type: 'success',
+        title: 'Autenticado com sucesso!',
+      });
     } catch (error) {
       setIsLoaderActive(false)
       addToast({
@@ -34,11 +39,6 @@ const Login = () => {
       });
     } finally {
       setIsLoaderActive(false)
-
-      addToast({
-        type: 'success',
-        title: 'Autenticado com sucesso!',
-      });
     }
   }, [signIn, addToast, history, setIsLoaderActive]);
 
