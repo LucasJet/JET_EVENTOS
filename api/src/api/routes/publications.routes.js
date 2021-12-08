@@ -7,6 +7,7 @@ const PublicationsControllers = require('../controllers/publicationsControllers'
 
 router.get('/', PublicationsControllers.getPublication);
 router.get('/:id', PublicationsControllers.findById);
+router.get('/quantity/getTotalPublications', PublicationsControllers.getTotalPublications);
 
 router.post('/', authenticatedUser, PublicationsControllers.create);
 

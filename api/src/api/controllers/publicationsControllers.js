@@ -69,6 +69,11 @@ const remove = (async (request, response) => {
     response.status(204).json({});
 });
 
+const getTotalPublications = (async (_request, response) => {
+    const publications = await PublicationServices.findAll();
+    response.json(publications.length);
+});
+
 module.exports = {
     findAll,
     findById,
@@ -76,4 +81,5 @@ module.exports = {
     edit,
     remove,
     getPublication,
+    getTotalPublications,
 };
