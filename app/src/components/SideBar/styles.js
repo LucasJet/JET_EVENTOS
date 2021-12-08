@@ -27,7 +27,7 @@ export const Container = styled.div`
   }
 
   #logo-jet {
-    width: 8vw;
+    width: 10vw;
   }
 `;
 

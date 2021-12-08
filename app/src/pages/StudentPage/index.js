@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useToast } from '../../hooks/ToastContext';
+import api from '../../services/api';
 
 import SideBar from '../../components/SideBar';
 import Navbar from '../../components/Navbar';
+import Loader from '../../components/Loader'
 
 import Modal from '@mui/material/Modal';
 
@@ -22,53 +25,57 @@ import {
 } from './styles';
 
 const Events = () => {
+  const { addToast } = useToast();
   const [selectedPublication, setPublicationSelected] = useState({})
+  const [isLoaderActive, setIsLoaderActive] = useState(false)
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const dataListEvents = [
-    {
-      title: 'Atitude empreendedora III',
-      description: 'Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1, Auditório principal AMF 1.',
-      date: '10/02/2022',
-      time: '08:30'
-    },
-    {
-      title: 'Atitude empreendedora II',
-      description: 'Auditório principal AMF 1',
-      date: '10/02/2022',
-      time: '08:30'
-    },
-    {
-      title: 'Atitude empreendedora I',
-      description: 'Auditório principal AMF 1',
-      date: '10/02/2022',
-      time: '08:30'
-    },
-  ]
+  const [dataPublications, setDataPublications] = useState([])
+  const [dataEvents, setDataEvents] = useState([])
 
-  const dataListPublications = [
-    {
-      id: 1,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. ',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 2,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. ',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 3,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-  ]
+  async function buscarEventos() {
+    try {
+      setIsLoaderActive(true)
+      await api.get('/events?page=1&limit=3').then(events => setDataEvents(events.data));
+    } catch (error) {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'error',
+        title: 'Erro interno na aplicação',
+        description: error.message ?? '',
+      });
+    } finally {
+      setIsLoaderActive(false)
+    }
+  }
+
+  async function buscarPublicacoes() {
+    try {
+      setIsLoaderActive(true)
+      await api.get('/publications?page=1&limit=3').then(publication => setDataPublications(publication.data));
+    } catch (error) {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'error',
+        title: 'Erro interno na aplicação',
+        description: error.message ?? '',
+      });
+    } finally {
+      setIsLoaderActive(false)
+    }
+  }
+
+  useEffect(() => {
+    console.log(dataEvents);
+  }, [dataEvents])
+
+  useEffect(() => {
+    buscarEventos()
+    buscarPublicacoes()
+  }, [])
 
   const styleButton = {
     backgroundColor: '#666667',
@@ -84,11 +91,33 @@ const Events = () => {
 
     return string;
   }
+  
+  async function marcarPresenca(status, eventId) {
+    try {
+      setIsLoaderActive(true)
+      const body = {
+        status, eventId 
+      }
+
+      await api.post('/userEvents', body)
+    } catch (error) {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'error',
+        title: 'Erro interno na aplicação',
+        description: error.message ?? '',
+      });
+    }
+  }
 
   return (
     <Container>
       <SideBar/>
       <Navbar/>
+
+      {isLoaderActive && (
+        <Loader />
+      )}
 
       <ContainerStudent>
         <div>
@@ -97,12 +126,12 @@ const Events = () => {
           </ContainerHeader>
 
           <ListEvents>
-            {dataListEvents.map((event, index) => (
+            {!!dataEvents && dataEvents.map((event, index) => (
               <CardEvent
                 key={index}
                 onClick={ () => {
                   setPublicationSelected(event)
-                  handleOpen()
+                  // handleOpen()
                 } }
               >
                 <TitlePublication>{ event.title }</TitlePublication>
@@ -112,19 +141,29 @@ const Events = () => {
                 <CardContent>
                   <div>
                     <img src={ require('../../assets/icon-calendar.svg') } alt="icon calendar"/>
-                    <span>{ event.date }</span>
+                    <span>
+                      { event.date ? event.date + ' ' + event.hour_from + ' - ' + event.hour_to : 'A definir.' }
+                    </span>
                   </div>
 
                   <div>
                     <img src={ require('../../assets/icon-locale.svg') } alt="icon locale"/>
-                    <span>{ event.time }h</span>
+                    <span>{ event.locale ? event.locale : 'Local ainda não informado.' }</span>
                   </div>
                 </CardContent>
 
-                <ContainerButtonsEvent>
-                  <button>Estarei presente</button>
-                  <button style={ styleButton }>Não poderei ir</button>
-                </ContainerButtonsEvent>
+                {event.status === 'Pendente' && (
+                  <ContainerButtonsEvent>
+                    <button onClick={ () => marcarPresenca(true, event._id) }>Estarei presente</button>
+                    <button onClick={ () => marcarPresenca(false, event._id) } style={ styleButton }>Não poderei ir</button>
+                  </ContainerButtonsEvent>
+                )}
+                {event.status === true && (
+                  <span>Você marcou presença nesse evento!</span>
+                )}
+                {!event.status && (
+                  <span>Sentiremos sua falta :(</span>
+                )}
               </CardEvent>
             ))}
 
@@ -136,17 +175,17 @@ const Events = () => {
           </ContainerHeader>
 
           <ListPublications>
-            {dataListPublications.map((event, index) => (
+            {!!dataPublications && dataPublications.map((publication, index) => (
               <CardPublication
                 key={ index }
                 onClick={ () => {
-                  setPublicationSelected(event)
+                  setPublicationSelected(publication)
                   handleOpen()
                 } }
               >
-                <TitlePublication>{ event.title }</TitlePublication>
+                <TitlePublication>{ publication.title }</TitlePublication>
 
-                <DescriptionSpan>{ add3Dots(event.description, 300) }</DescriptionSpan>
+                <DescriptionSpan>{ add3Dots(publication.description, 300) }</DescriptionSpan>
               </CardPublication>
             ))}
           </ListPublications>
@@ -189,9 +228,9 @@ const Events = () => {
             </>
           )}
 
-          {selectedPublication.createdBy && (
+          {selectedPublication.user && (
             <CreatedBySpan id="modal-modal-description" sx={ { mt: 2 } }>
-              Criado por: { selectedPublication.createdBy }
+              Criado por: { selectedPublication.user }
             </CreatedBySpan>
           )}
         </ContainerModal>

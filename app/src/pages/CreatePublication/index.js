@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
+import { useToast } from '../../hooks/ToastContext';
 
 import SideBar from '../../components/SideBar';
 import Navbar from '../../components/Navbar';
+import Loader from '../../components/Loader'
 
 import api from '../../services/api';
 
@@ -18,19 +20,49 @@ import {
 
 const CreatePublication = () => {
   const history = useHistory()
+  const { addToast } = useToast();
+  const [isLoaderActive, setIsLoaderActive] = useState(false)
 
   async function createPublication() {
-    const body = {
-      title: document.getElementById('name-publication').value,
-      description: document.getElementById('description-publication').value,
+    try {
+      setIsLoaderActive(true)
+      const body = {
+        title: document.getElementById('name-publication').value,
+        description: document.getElementById('description-publication').value,
+      }
+      
+      await api.post('/publications', body);
+    } catch (error) {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'error',
+        title: 'Erro interno na aplicação',
+        description: error.message ?? '',
+      });
+    } finally {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'success',
+        title: 'Publicação criada com sucesso!',
+      });
+
+      limparCampos()
     }
-    await api.post('/publicacoes', body);
+  }
+
+  function limparCampos() {
+    document.getElementById('name-publication').value = ''
+    document.getElementById('description-publication').value = ''
   }
 
   return (
     <Container>
       <SideBar/>
       <Navbar/>
+
+      {isLoaderActive && (
+        <Loader />
+      )}
 
       <ContainerCreatePublication>
         <CardCreatePublication>
@@ -50,9 +82,12 @@ const CreatePublication = () => {
 
             <hr />
 
-            <form onSubmit={ () =>createPublication() }>
+            <form onSubmit={ (e) => {
+              e.preventDefault()
+              createPublication()
+            } }>
               <div>
-                <LabelFormInput htmlFor="name-event">
+                <LabelFormInput htmlFor="name-publication">
                   Assunto da publicação
                   <input
                     id="name-publication"
@@ -61,7 +96,7 @@ const CreatePublication = () => {
                   />
                 </LabelFormInput>
 
-                <LabelFormInput htmlFor="description-event">
+                <LabelFormInput htmlFor="description-publication">
                   Descrição
                   <textarea
                     id="description-publication"
@@ -79,6 +114,12 @@ const CreatePublication = () => {
                     <span>Preencha todos os dados</span>
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  style={ { background: 'gray'} }
+                  onClick={ () => limparCampos() }
+                >Limpar campos</button>
 
                 <button type="submit">Criar publicação</button>
               </FooterSave>

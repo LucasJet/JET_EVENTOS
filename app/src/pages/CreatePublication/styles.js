@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 0.2fr 2fr;
-  grid-template-rows: 5.3vw;
+  grid-template-rows: 5.5vw;
   grid-template-areas:
       "sidebar navbar"
       "sidebar containerGrid"
@@ -42,7 +42,6 @@ export const FormContainerPublication = styled.div`
   background: #FFFFFF;
   border-radius: 8px;
   padding: 10px 25px;
-  height: 80%;
 
   h2 {
     font-weight: 600;
@@ -98,6 +97,7 @@ export const FooterSave = styled.div`
   background: #FAFAFC;
   border: 1px solid #E6E6F0;
   padding: 30px;
+  margin-top: 20px;
 
   div {
     display: flex;
@@ -129,7 +129,8 @@ export const FooterSave = styled.div`
     border: 1px solid #E6E6F0;
     box-sizing: border-box;
     border-radius: 8px;
-    padding: 15px 35px;
+    padding: 2% 5%;
     color: white;
+    margin-left: 5px;
   }
 `

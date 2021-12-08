@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
+import { useToast } from '../../hooks/ToastContext';
 
 import SideBar from '../../components/SideBar';
 import Navbar from '../../components/Navbar';
+import Loader from '../../components/Loader'
 
 import api from '../../services/api';
 
 import ptBR from "date-fns/locale/pt-BR";
-import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker';
+import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import {
@@ -24,29 +26,64 @@ import {
 
 const CreateEvent = () => {
   const history = useHistory()
+  const { addToast } = useToast();
+  const [isLoaderActive, setIsLoaderActive] = useState(false)
 
-  const [date, setDate] = useState(new Date);
+  const [date, setDate] = useState(new Date());
   registerLocale("pt-BR", ptBR);
 
   async function createEvent() {
-    let formatedData = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+    try {
+      setIsLoaderActive(true)
+      let formatedData = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+  
+      const body = {
+        title: document.getElementById('name-event').value,
+        locale: document.getElementById('locale-event').value,
+        description: document.getElementById('description-event').value,
+        date: formatedData,
+        hour_from: document.getElementById('hour-from-event').value,
+        hour_to: document.getElementById('hour-to-event').value,
+        required: document.getElementById('attendence-event').checked,
+      }
+  
+      await api.post('/events', body);
+    } catch (error) {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'error',
+        title: 'Erro interno na aplicação',
+        description: error.message ?? '',
+      });
+    } finally {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'success',
+        title: 'Evento criado com sucesso!',
+      });
 
-    const body = {  
-      title: document.getElementById('name-event').value,
-      description: document.getElementById('description-event').value,
-      date: formatedData,
-      hour_from: document.getElementById('hour-from-event').value,
-      hour_to: document.getElementById('hour-to-event').value,
-      required: document.getElementById('attendence-event').checked,
+      limparCampos()
     }
+  }
 
-    await api.post('/events', body);
+  function limparCampos() {
+    document.getElementById('name-event').value = ''
+    document.getElementById('locale-event').value = ''
+    document.getElementById('description-event').value = ''
+    setDate(new Date())
+    document.getElementById('hour-from-event').value = ''
+    document.getElementById('hour-to-event').value = ''
+    document.getElementById('attendence-event').checked = false
   }
 
   return (
     <Container>
       <SideBar/>
       <Navbar/>
+
+      {isLoaderActive && (
+        <Loader />
+      )}
 
       <ContainerCreateEvent>
         <CardCreateEvent>
@@ -80,14 +117,23 @@ const CreateEvent = () => {
                 />
               </LabelFormInput>
 
-              <LabelFormInput htmlFor="link-event">
+              <LabelFormInput htmlFor="locale-event">
+                Local do evento
+                <input
+                  id="locale-event"
+                  type="text"
+                  required
+                />
+              </LabelFormInput>
+
+              {/* <LabelFormInput htmlFor="link-event">
                 Link da imagem (comeca com http://)
                 <input
                   id="link-event"
                   type="text"
                   required
                 />
-              </LabelFormInput>
+              </LabelFormInput> */}
 
               <LabelFormInput htmlFor="description-event">
                 Descrição
@@ -101,7 +147,6 @@ const CreateEvent = () => {
               <ContainerDate>
                 <LabelFormInput htmlFor="date-event">
                   Data
-                  {/* <input id="date-event" type="date" required/> */}
                   <ReactDatePicker
                     selected={ date }
                     onChange={ setDate }
@@ -134,6 +179,12 @@ const CreateEvent = () => {
                     <span>Preencha todos os dados</span>
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  style={ { background: 'gray'} }
+                  onClick={ () => limparCampos() }
+                >Limpar campos</button>
 
                 <button type="submit">Criar evento</button>
               </FooterSave>

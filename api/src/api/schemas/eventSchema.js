@@ -4,6 +4,7 @@ joi.objectId = require('joi-objectid')(joi);
 
 module.exports = joi.object({
   title: joi.string().required().max(100),
+  locale: joi.string().required().max(300),
   description: joi.string().required(),
   date: joi.string().max(10),
   hour_from: joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),

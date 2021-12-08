@@ -20,9 +20,9 @@ const auth = async (loginData) => {
         throw new AppError('Usuário ou senha incorretos.', 401);
     }
 
-    const { _id, role } = userLogin;
+    const { _id, role, fullname } = userLogin;
     const { secret, expiresIn } = jwtData;
-    const user = { _id, role, email };
+    const user = { _id, role, email, fullname };
 
     const token = jwt.sign({ data: user }, secret, {
         expiresIn,
