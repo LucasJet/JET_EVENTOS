@@ -42,6 +42,7 @@ export const ListPublications = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  height: 100%;
 `;
 
 export const CardPublication = styled.div`

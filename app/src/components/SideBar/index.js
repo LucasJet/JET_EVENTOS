@@ -17,11 +17,11 @@ const SideBar = () => {
   const SideBarTabs = [
     {
       titleUser: 'Início',
-      titleAdmin: 'Dashboard',
-      icon: require('../../assets/icon-dashboard.svg'),
+      titleAdmin: 'inicio',
+      icon: require('../../assets/icon-home.svg'),
       urlUser: '/inicio',
-      urlAdmin: '/dashboard',
-      route: '/dashboard',
+      urlAdmin: '/inicio',
+      route: '/inicio',
       private: false,
     },
     {
@@ -43,6 +43,15 @@ const SideBar = () => {
       route: '/publicacoes',
       routeCreate: '/criar-publicacoes',
       private: false,
+    },
+    {
+      titleUser: 'Dashboard',
+      titleAdmin: 'Dashboard',
+      icon: require('../../assets/icon-dashboard.svg'),
+      urlUser: '/inicio',
+      urlAdmin: '/dashboard',
+      route: '/dashboard',
+      private: true,
     },
     {
       titleAdmin: 'Criar usuário',

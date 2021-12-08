@@ -8,6 +8,9 @@ export const Nav = styled.nav`
   align-items: center;
   height: 85px;
   padding: 0px 25px;
+  position: fixed;
+  background: white;
+  width: 100%;
 `;
 
 export const NavLogo = styled(Link)`

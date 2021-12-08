@@ -158,7 +158,6 @@ const CreateEvent = () => {
                 <input
                   id="role"
                   type="text"
-                  required
                 />
               </LabelFormInput>
 

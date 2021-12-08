@@ -67,19 +67,15 @@ const Publications = () => {
 
   async function getQuantityPublications() {
     try {
-      setIsLoaderActive(true)
       await api.get('/publications/quantity/getTotalPublications').then(quantity => 
         setQuantityPublications(Math.ceil(quantity.data / 6))
       );
     } catch (error) {
-      setIsLoaderActive(false)
       addToast({
         type: 'error',
         title: 'Erro interno na aplicação',
         description: error.message ?? '',
       });
-    } finally {
-      setIsLoaderActive(false)
     }
   }
 

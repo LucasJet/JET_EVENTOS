@@ -70,19 +70,15 @@ const Events = () => {
 
   async function getQuantityEvents() {
     try {
-      setIsLoaderActive(true)
       await api.get('/events/quantity/getTotalEvents').then(quantity => 
         setQuantityEvents(Math.ceil(quantity.data / 8))
       );
     } catch (error) {
-      setIsLoaderActive(false)
       addToast({
         type: 'error',
         title: 'Erro interno na aplicação',
         description: error.message ?? '',
       });
-    } finally {
-      setIsLoaderActive(false)
     }
   }
 
@@ -193,7 +189,7 @@ const Events = () => {
             {Number(queryParams.page) < quantityEvents && (
               <button onClick={ () => history.push(`eventos?page=${Number(queryParams.page) + 1}&limit=8`) }>Próximo</button>
             )}
-            {Number(queryParams.page) + 1 > quantityEvents && (
+            {Number(queryParams.page) + 1 > quantityEvents && Number(queryParams.page) !== 1 && (
               <button onClick={ () => history.push(`eventos?page=${Number(queryParams.page) - 1}&limit=8`) }>Voltar</button>
             )}
           </ContainerButtons>

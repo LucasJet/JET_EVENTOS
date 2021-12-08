@@ -54,17 +54,13 @@ const Events = () => {
 
   async function buscarPublicacoes() {
     try {
-      setIsLoaderActive(true)
       await api.get('/publications?page=1&limit=3').then(publication => setDataPublications(publication.data));
     } catch (error) {
-      setIsLoaderActive(false)
       addToast({
         type: 'error',
         title: 'Erro interno na aplicação',
         description: error.message ?? '',
       });
-    } finally {
-      setIsLoaderActive(false)
     }
   }
 
@@ -163,10 +159,12 @@ const Events = () => {
                   <ContainerButtonsEvent style={ { zIndex: 10 } }>
                     <button onClick={ () => {
                       marcarPresenca(true, event._id)
+                      buscarEventos()
                       handleClose()
                     } }>Estarei presente</button>
                     <button onClick={ () => {
                       marcarPresenca(false, event._id)
+                      buscarEventos()
                       handleClose()
                     } } style={ styleButton }>Não poderei ir</button>
                   </ContainerButtonsEvent>
@@ -224,24 +222,44 @@ const Events = () => {
             { selectedPublication.description }
           </DescriptionSpan>
 
-          {selectedPublication.time && (
+          {selectedPublication.date && (
             <>
               <CardContent style={ { margin: '25px 0px 10px 0px' } }>
-                <div>
-                  <img src={ require('../../assets/icon-calendar.svg') } alt="icon calendar"/>
-                  <span>{ selectedPublication.date }</span>
-                </div>
+                <div style={{ flexDirection: 'column' }}>
+                  <div>
+                    <img src={ require('../../assets/icon-calendar.svg') } alt="icon calendar"/>
+                    <span>
+                      { selectedPublication.date ? selectedPublication.date + ' ' + selectedPublication.hour_from + ' - ' + selectedPublication.hour_to : 'A definir.' }
+                    </span>
+                  </div>
 
-                <div>
-                  <img src={ require('../../assets/icon-locale.svg') } alt="icon locale"/>
-                  <span>{ selectedPublication.time }h</span>
+                  <div>
+                    <img src={ require('../../assets/icon-locale.svg') } alt="icon locale"/>
+                    <span>{ selectedPublication.locale ? selectedPublication.locale : 'Local ainda não informado.' }</span>
+                  </div>
                 </div>
               </CardContent>
 
-              <ContainerButtonsEvent>
-                <button>Estarei presente</button>
-                <button style={ styleButton }>Não poderei ir</button>
-              </ContainerButtonsEvent>
+              {selectedPublication.status === 'Pendente' && (
+                <ContainerButtonsEvent style={ { zIndex: 10 } }>
+                  <button onClick={ () => {
+                    marcarPresenca(true, selectedPublication._id)
+                    buscarEventos()
+                    handleClose()
+                  } }>Estarei presente</button>
+                  <button onClick={ () => {
+                    marcarPresenca(false, selectedPublication._id)
+                    buscarEventos()
+                    handleClose()
+                  } } style={ styleButton }>Não poderei ir</button>
+                </ContainerButtonsEvent>
+                )}
+                {selectedPublication.status === true && (
+                  <span>Você marcou presença nesse evento!</span>
+                )}
+                {!selectedPublication.status && (
+                  <span>Sentiremos sua falta :(</span>
+                )}
             </>
           )}
 

@@ -145,6 +145,12 @@ export const ContainerModal = styled.div`
   border: 2px solid #000;
   box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
   padding: 32px;
+  font-size: 18px;
+  color: #6A6180;
+
+  span {
+
+  }
 `
 
 export const ContainerButtonsEvent = styled.div`
