@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 
 import SideBar from '../../components/SideBar';
 import Navbar from '../../components/Navbar';
@@ -19,6 +20,8 @@ import {
 } from './styles';
 
 const Publications = () => {
+  const history = useHistory()
+
   const [selectedPublication, setPublicationSelected] = useState({})
 
   const [open, setOpen] = useState(false);
@@ -105,9 +108,9 @@ const Publications = () => {
       <ContainerPublications>
         <ContainerHeader>
           <h1>Publicações recentes</h1>
-          {'user' === 'admin' && (
-            <button>Criar Publicação</button>
-          )}
+          <button onClick={ () => {
+            history.push('criar-publicacoes')
+          } }>Criar Publicação</button>
         </ContainerHeader>
 
         <ListPublications>
@@ -153,7 +156,7 @@ const Publications = () => {
             { selectedPublication.description }
           </DescriptionSpan>
           <CreatedBySpan id="modal-modal-description" sx={ { mt: 2 } }>
-            { selectedPublication.createdBy }
+            Criado por: { selectedPublication.createdBy }
           </CreatedBySpan>
         </ContainerModal>
       </Modal>

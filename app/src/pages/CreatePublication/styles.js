@@ -12,17 +12,18 @@ export const Container = styled.div`
   background: #F8F8FB;
 `;
 
-export const ContainerCreateEvent = styled.div`
+export const ContainerCreatePublication = styled.div`
   grid-area: 2 / 2 / 6 / 6;
   padding: 15px 35px;
   grid-area: containerGrid;
 `;
 
-export const CardCreateEvent = styled.div`
+export const CardCreatePublication = styled.div`
   background: #FFFFFF;
   border: 1px solid #E6E6F0;
   border-radius: 8px;
   width: 50%;
+  height: 100%;
 `
 
 export const HeaderCard = styled.div`
@@ -37,10 +38,11 @@ export const HeaderCard = styled.div`
   }
 `
 
-export const FormContainerEvent = styled.div`
+export const FormContainerPublication = styled.div`
   background: #FFFFFF;
   border-radius: 8px;
   padding: 10px 25px;
+  height: 80%;
 
   h2 {
     font-weight: 600;
@@ -51,6 +53,13 @@ export const FormContainerEvent = styled.div`
 
   hr {
     margin: 10px 0px 25px 0px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
   }
 `
 
@@ -80,23 +89,6 @@ export const LabelFormInput = styled.label`
     border-radius: 8px;
     min-height: 150px;
     padding: 15px;
-  }
-`
-export const ContainerDate = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-export const AttendanceMandatory = styled.label`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  line-height: 24px;
-  color: #9C98A6;
-  padding: 8px; 
-
-  input {
-    margin-right: 10px;
   }
 `
 

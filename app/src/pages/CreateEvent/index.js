@@ -23,13 +23,13 @@ const CreateEvent = () => {
 
   async function createEvent() {
     const body = {
-      "title": document.getElementById('name-event').value,
-      "description": document.getElementById('description-event').value,
-      "date": document.getElementById('date-event').value,
-      "hour_from": document.getElementById('hour-from-event').value,
-      "hour_to": document.getElementById('hour-to-event').value,
-      "required": document.getElementById('attendence-event').value,
-      "userId": document.getElementById('name-event').value,
+      title: document.getElementById('name-event').value,
+      description: document.getElementById('description-event').value,
+      date: document.getElementById('date-event').value,
+      hour_from: document.getElementById('hour-from-event').value,
+      hour_to: document.getElementById('hour-to-event').value,
+      required: document.getElementById('attendence-event').value,
+      userId: document.getElementById('name-event').value,
     }
 
     console.log(body);
@@ -58,55 +58,68 @@ const CreateEvent = () => {
 
             <hr />
 
-            <LabelFormInput for="name-event">
-              Nome do evento
-              <input id="name-event" type="text"/>
-            </LabelFormInput>
-
-            <LabelFormInput for="link-event">
-              Link da imagem (comeca com http://)
-              <input id="link-event" type="text"/>
-            </LabelFormInput>
-
-            <LabelFormInput for="description-event">
-              Descrição
-              <textarea id="description-event" type="text"/>
-            </LabelFormInput>
-
-            <ContainerDate>
-              <LabelFormInput for="date-event">
-                Data
-                <input id="date-event" type="date"/>
+            <form onSubmit={ () =>createEvent() }>
+              <LabelFormInput htmlFor="name-event">
+                Nome do evento
+                <input
+                  id="name-event"
+                  type="text"
+                  required
+                />
               </LabelFormInput>
 
-              <LabelFormInput for="hour-from-event">
-                Das
-                <input id="hour-from-event" type="time"/>
+              <LabelFormInput htmlFor="link-event">
+                Link da imagem (comeca com http://)
+                <input
+                  id="link-event"
+                  type="text"
+                  required
+                />
               </LabelFormInput>
 
-              <LabelFormInput for="hour-to-event">
-                Até
-                <input id="hour-to-event" type="time"/>
+              <LabelFormInput htmlFor="description-event">
+                Descrição
+                <textarea
+                  id="description-event"
+                  type="text"
+                  required
+                />
               </LabelFormInput>
-            </ContainerDate>
 
-            <AttendanceMandatory for="attendence-event">
-              <input id="attendence-event" type="checkbox"/>
-              Presença obrigatória?
-            </AttendanceMandatory>
+              <ContainerDate>
+                <LabelFormInput htmlFor="date-event">
+                  Data
+                  <input id="date-event" type="date" required/>
+                </LabelFormInput>
 
-            <FooterSave>
-              <div>
-                <img src={ require('../../assets/icon-alert.svg') } />
+                <LabelFormInput htmlFor="hour-from-event">
+                  Das
+                  <input id="hour-from-event" type="time" required/>
+                </LabelFormInput>
+
+                <LabelFormInput htmlFor="hour-to-event">
+                  Até
+                  <input id="hour-to-event" type="time" required/>
+                </LabelFormInput>
+              </ContainerDate>
+
+              <AttendanceMandatory htmlFor="attendence-event">
+                <input id="attendence-event" type="checkbox" required/>
+                Presença obrigatória?
+              </AttendanceMandatory>
+
+              <FooterSave>
                 <div>
-                  <span>Importante!</span>
-                  <span>Preencha todos os dados</span>
+                  <img src={ require('../../assets/icon-alert.svg') } />
+                  <div>
+                    <span>Importante!</span>
+                    <span>Preencha todos os dados</span>
+                  </div>
                 </div>
-              </div>
 
-              <button type="button" onClick={ () => createEvent() }>Salvar cadastro</button>
-            </FooterSave>
-            
+                <button type="submit">Criar evento</button>
+              </FooterSave>
+            </form>
           </FormContainerEvent>
         </CardCreateEvent>
       </ContainerCreateEvent>

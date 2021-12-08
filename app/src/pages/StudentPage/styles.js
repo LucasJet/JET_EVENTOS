@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 0.2fr 2fr;
-  grid-template-rows: 6.3vh;
+  grid-template-rows: 5.3vw;
   grid-template-areas:
       "sidebar navbar"
       "sidebar containerGrid"
@@ -12,7 +12,7 @@ export const Container = styled.div`
   background: #F8F8FB;
 `;
 
-export const ContainerEvents = styled.div`
+export const ContainerStudent = styled.div`
   display: flex;
   flex-direction: column;
   padding: 15px 35px;
@@ -24,97 +24,35 @@ export const ContainerHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   padding: 15px 0px;
-
-  button {
-    background: #6DAEFB;
-    border: 1px solid #E6E6F0;
-    box-sizing: border-box;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 26px;
-    color: #FFFFFF;
-    padding: 10px 20px;
-  }
 `
 
 export const ListEvents = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  height: 100%;
 `;
 
 export const CardEvent = styled.div`
   display: flex;
-  flex-direction: row;
-  background-color: white;
-  margin: 15px 0px;
-  min-width: 555px;
-  width: 45%;
-  max-height: 35%;
-`;
-
-export const ImageEvent = styled.div`
-  flex: 1;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-export const InfoEvent = styled.div`
-  display: flex;
   flex-direction: column;
-  flex: 2;
+  justify-content: space-around;
+  margin: 15px 0px;
+  width: 30%;
+  min-width: 310px;
+  max-width: 45%;
+  min-height: 250px;
+  max-height: 35%;
+  padding: 20px;
+  border-radius: 8px;
+  cursor: pointer;
 
-  h3 {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 25px;
-    color: #32264D;
-    padding: 10px;
-  }
+  background: #FFFFFF;
+  border: 1px solid #E6E6F0;
 
-  div {
-    display: flex;
-    justify-content: start;
-    padding: 5px 10px;
+  transition: all 0.7s ease;
 
-    img {
-      margin-right: 5px;
-    }
-
-    span {
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 26px;
-      color: #6A6180;
-    }
-  }
-`;
-
-export const ContainerButtons = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  > :last-child {
-    margin-right: 0px;
-  }
-
-  button {
-    background: #FFFFFF;
-    border: 1px solid #B4B4B4;
-    padding: 6px 13px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 26px;
-    color: #A3A3A3;
-    margin: 5px;
+  &:hover {
+    background: rgb(239 239 239 / 29%);
   }
 `;
 
@@ -133,7 +71,35 @@ export const CardContent = styled.div`
     }
   }
 `;
+
+export const ListPublications = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+`;
+
+export const CardPublication = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0px;
+  min-width: 310px;
+  width: 30%;
+  max-height: 35%;
+  padding: 15px 25px;
+  cursor: pointer;
   
+  background: #FFFFFF;
+  border: 1px solid #E6E6F0;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  transition: all 0.7s ease;
+
+  &:hover {
+    background: rgb(239 239 239 / 29%);
+  }
+`;
+
 export const TitlePublication = styled.h3`
   font-size: 36px;
   line-height: 45px;
@@ -153,6 +119,17 @@ export const DescriptionSpan = styled.span`
   padding: 10px;
 `
 
+export const CreatedBySpan = styled.span`
+  font-size: 14px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #606060;
+  margin-top: 25px;
+`
+
 export const ContainerModal = styled.div`
   position: absolute;
   top: 50%;
@@ -163,4 +140,23 @@ export const ContainerModal = styled.div`
   border: 2px solid #000;
   box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
   padding: 32px;
+`
+
+export const ContainerButtonsEvent = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  button {
+    border: 1px solid #B4B4B4;
+    padding: 6px 13px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 26px;
+    color: white;
+    margin: 5px;
+
+    background: #6DAEFB;
+    border: 1px solid #E6E6F0;
+    border-radius: 8px;
+  }
 `

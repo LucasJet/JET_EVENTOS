@@ -10,19 +10,27 @@ const SideBar = () => {
 
   const SideBarTabs = [
     {
-      title: 'Dashboard',
+      titleUser: 'Início',
+      titleAdmin: 'Dashboard',
       icon: require('../../assets/icon-dashboard.svg'),
-      url: '/dashboard'
+      urlUser: '/inicio',
+      urlAdmin: '/dashboard'
     },
     {
-      title: 'Eventos',
+      titleUser: 'Eventos',
+      titleAdmin: 'Eventos',
       icon: require('../../assets/icon-events.svg'),
-      url: '/eventos'
+      urlUser: '/eventos',
+      urlAdmin: '/eventos',
+      routeCreate: '/criar-eventos'
     },
     {
-      title: 'Publicações',
+      titleUser: 'Publicações',
+      titleAdmin: 'Publicações',
       icon: require('../../assets/icon-publications.svg'),
-      url: '/publicacoes'
+      urlUser: '/publicacoes',
+      urlAdmin: '/publicacoes',
+      routeCreate: '/criar-publicacoes'
     },
   ]
 
@@ -34,6 +42,8 @@ const SideBar = () => {
     borderLeft: '4px solid #1E6FAB',
   }
 
+  const admin = false;
+
   return (
     <Container>
       <img id="logo-jet" src={ require('../../assets/logo-jet.svg') } alt="Logo jet" />
@@ -41,13 +51,18 @@ const SideBar = () => {
       {SideBarTabs.map((tab, index) => (
         <ContainerTab
           onClick={ () => {
-            history.push(tab.url)
+            history.push(admin ? tab.urlAdmin : tab.urlUser)
           } }
-          style={ location.pathname === tab.url ? styleSelectedTab : {} }
+          style={
+            location.pathname === tab.urlAdmin
+            ||  location.pathname === tab.urlUser
+            ||  location.pathname === tab.routeCreate
+            ? styleSelectedTab : {}
+          }
           key={ index }
         >
-          <img src={ tab.icon } alt={ tab.title } />
-          <span>{ tab.title }</span>
+          <img src={ tab.icon } alt={ admin ? tab.titleAdmin : tab.titleUser } />
+          <span>{ admin ? tab.titleAdmin : tab.titleUser }</span>
         </ContainerTab>
       ))}
 
