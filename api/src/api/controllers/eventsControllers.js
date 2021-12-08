@@ -38,16 +38,17 @@ const findById = (async (request, response) => {
 });
 
 const create = (async (request, response) => {
-    const { title, description, date, hour_from, hour_to, required } = request.body;
+    const { title, locale, description, date, hour_from, hour_to, required } = request.body;
     const { _id: user } = request.user;
 
     const { _id, ...event } = await EventServices.create({
-        title, description, date, hour_from, hour_to, required, userId: user.toString(),
+        title, locale, description, date, hour_from, hour_to, required, userId: user.toString(),
     });
 
     response.status(201).json({
         event: {
             title: event.title,
+            locale: event.locale,
             description: event.description,
             date: event.date,
             hour_from: event.hour_from,

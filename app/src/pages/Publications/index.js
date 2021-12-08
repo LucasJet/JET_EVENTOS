@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom'
+import queryString from 'query-string'
+import { useToast } from '../../hooks/ToastContext';
 
 import SideBar from '../../components/SideBar';
 import Navbar from '../../components/Navbar';
+import Loader from '../../components/Loader'
 
 import Modal from '@mui/material/Modal';
+
+import api from '../../services/api';
 
 import {
   Container,
@@ -21,6 +26,15 @@ import {
 
 const Publications = () => {
   const history = useHistory()
+  const location = useLocation()
+  const { addToast } = useToast();
+
+  const [user, setUser] = useState()
+  const [isLoaderActive, setIsLoaderActive] = useState(false)
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('@JET:user')))
+  }, [])
 
   const [selectedPublication, setPublicationSelected] = useState({})
 
@@ -28,67 +42,84 @@ const Publications = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const dataListPublications = [
-    {
-      id: 1,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. ',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 2,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. Curso front-end ReactJs. ',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 3,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 4,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 5,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 6,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 7,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 8,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-    {
-      id: 9,
-      title: 'Curso grátis na Udemy',
-      description: 'Curso front-end ReactJs',
-      createdBy: 'Lucas Rodrigues'
-    },
-  ]
+  const [dataPublications, setDataPublications] = useState([])
+  const [quantityPublications, setQuantityPublications] = useState()
+  const [queryParams, setQueryParams] = useState({})
+
+  async function buscarPublicacoes() {
+    try {
+      setIsLoaderActive(true)
+      if (!location.search) {
+        location.search = '?page=1&limit=8'
+      }
+      await api.get(`/publications${location.search}`).then(publication => setDataPublications(publication.data));
+    } catch (error) {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'error',
+        title: 'Erro interno na aplicação',
+        description: error.message ?? '',
+      });
+    } finally {
+      setIsLoaderActive(false)
+    }
+  }
+
+  async function getQuantityPublications() {
+    try {
+      setIsLoaderActive(true)
+      await api.get('/publications/quantity/getTotalPublications').then(quantity => 
+        setQuantityPublications(Math.ceil(quantity.data / 6))
+      );
+    } catch (error) {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'error',
+        title: 'Erro interno na aplicação',
+        description: error.message ?? '',
+      });
+    } finally {
+      setIsLoaderActive(false)
+    }
+  }
+
+  useEffect(() => {
+    buscarPublicacoes()
+    setQueryParams(queryString.parse(location.search))
+  }, [location.search])
+
+  useEffect(() => {
+    setQueryParams(queryString.parse(location.search))
+    if (!location.search) {
+      history.push('/publicacoes?page=1&limit=8')
+    }
+
+    buscarPublicacoes()
+    getQuantityPublications()
+  }, [])
 
   const styleSelectedButton = {
     backgroundColor: '#6DAEFB',
     border: '1px solid #6DAEFB',
     color: '#FFFFFF',
+  }
+
+  function renderButtons() {
+    const buttons = []
+
+    for (let index = 1; index <= quantityPublications; index++) {
+      buttons.push(
+        <button
+          style={ Number(queryParams.page) === index ? styleSelectedButton : {} }
+          key={ index }
+          onClick={ () => history.push(`publicacoes?page=${index}&limit=8`) }
+        >
+          { index }
+        </button>
+      )
+    }
+
+    return buttons
   }
 
   function add3Dots(string, limit) {
@@ -105,16 +136,22 @@ const Publications = () => {
       <SideBar/>
       <Navbar/>
 
+      {isLoaderActive && (
+        <Loader />
+      )}
+
       <ContainerPublications>
         <ContainerHeader>
           <h1>Publicações recentes</h1>
-          <button onClick={ () => {
-            history.push('criar-publicacoes')
-          } }>Criar Publicação</button>
+          {user && (user.role === 'admin' || user.role === 'professor') && (
+            <button onClick={ () => {
+              history.push('criar-publicacoes')
+            } }>Criar Publicação</button>
+          ) }
         </ContainerHeader>
 
         <ListPublications>
-          {dataListPublications.map((event, index) => (
+          {!!dataPublications && dataPublications.map((event, index) => (
             <CardPublication
               key={index}
               onClick={ () => {
@@ -130,16 +167,26 @@ const Publications = () => {
 
               <DescriptionSpan>{ add3Dots(event.description, 150) }</DescriptionSpan>
 
-              <CreatedBySpan>{ event.createdBy }</CreatedBySpan>
+              <CreatedBySpan>{ event.user }</CreatedBySpan>
             </CardPublication>
           ))}
+          {!dataPublications && (
+            <h1>Nenhuma publicação</h1>
+          )}
         </ListPublications>
 
-        <ContainerButtons>
-          <button style={ styleSelectedButton }>1</button>
-          <button>2</button>
-          <button>Próximo</button>
-        </ContainerButtons>
+        {!!quantityPublications && quantityPublications > 0 && (
+          <ContainerButtons>
+            {renderButtons()}
+
+            {Number(queryParams.page) < quantityPublications && (
+              <button onClick={ () => history.push(`publicacoes?page=${Number(queryParams.page) + 1}&limit=8`) }>Próximo</button>
+            )}
+            {Number(queryParams.page) + 1 > quantityPublications && Number(queryParams.page) !== 1 && (
+              <button onClick={ () => history.push(`publicacoes?page=${Number(queryParams.page) - 1}&limit=8`) }>Voltar</button>
+            )}
+          </ContainerButtons>
+        )}
       </ContainerPublications>
 
       <Modal
@@ -149,15 +196,21 @@ const Publications = () => {
         aria-describedby="modal-modal-description"
       >
         <ContainerModal>
+
           <TitlePublication>
             { selectedPublication.title }
           </TitlePublication>
+
           <DescriptionSpan id="modal-modal-description" sx={ { mt: 2 } }>
             { selectedPublication.description }
           </DescriptionSpan>
-          <CreatedBySpan id="modal-modal-description" sx={ { mt: 2 } }>
-            Criado por: { selectedPublication.createdBy }
-          </CreatedBySpan>
+
+          {selectedPublication.user && (
+            <CreatedBySpan id="modal-modal-description" sx={ { mt: 2 } }>
+              Criado por: { selectedPublication.user }
+            </CreatedBySpan>
+          )}
+
         </ContainerModal>
       </Modal>
     </Container>

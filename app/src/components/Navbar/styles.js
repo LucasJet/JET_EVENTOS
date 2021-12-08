@@ -27,7 +27,7 @@ export const Container = styled.div`
   }
 
   #logo-avatar {
-    margin: 0px 0px 0px 15px;
+    margin: 0px 15px;
     width: 3%;
   }
 `;
@@ -40,6 +40,7 @@ export const ContainerName = styled.div`
     line-height: 18px;
     letter-spacing: 0.01em;
     font-size: 1.4em;
+    margin-bottom: 3px;
   }
 
   span {

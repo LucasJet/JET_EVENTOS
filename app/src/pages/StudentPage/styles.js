@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 0.2fr 2fr;
-  grid-template-rows: 5.3vw;
+  grid-template-rows: 5.5vw;
   grid-template-areas:
       "sidebar navbar"
       "sidebar containerGrid"
@@ -53,6 +53,11 @@ export const CardEvent = styled.div`
 
   &:hover {
     background: rgb(239 239 239 / 29%);
+  }
+
+  span {
+    font-size: 18px;
+    color: #6A6180;
   }
 `;
 

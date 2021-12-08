@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 import { useToast } from '../../hooks/ToastContext';
+import Loader from '../../components/Loader'
 
 import {
   Container,
@@ -13,31 +14,42 @@ const Login = () => {
   const { signIn } = useAuth();
   const { addToast } = useToast();
   const history = useHistory();
+  const [isLoaderActive, setIsLoaderActive] = useState(false)
 
   const handleSubmit = useCallback(async (event) => {
     try {
+      setIsLoaderActive(true)
       await signIn({
         email: event.target.login.value,
         password: event.target.password.value,
       });
 
+      setIsLoaderActive(false)
       history.push('/inicio');
-
-      addToast({
-        type: 'success',
-        title: 'Autenticado com sucesso!',
-      });
-    } catch (err) {
+    } catch (error) {
+      setIsLoaderActive(false)
       addToast({
         type: 'error',
         title: 'Erro na Autenticação',
         description: 'Ocorreu um erro ao fazer login, verifique as credenciais!',
       });
+    } finally {
+      setIsLoaderActive(false)
+
+      addToast({
+        type: 'success',
+        title: 'Autenticado com sucesso!',
+      });
     }
-  }, [signIn, addToast, history]);
+  }, [signIn, addToast, history, setIsLoaderActive]);
 
   return (
     <Container>
+
+      {isLoaderActive && (
+        <Loader />
+      )}
+
       <ContainerLogin>
         <img src={ require('../../assets/logo-jet-azul.svg')} alt="foto jet" />
 

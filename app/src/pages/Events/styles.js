@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 0.2fr 2fr;
-  grid-template-rows: 6.3vh;
+  grid-template-rows: 5.5vw;
   grid-template-areas:
       "sidebar navbar"
       "sidebar containerGrid"
@@ -53,20 +53,26 @@ export const CardEvent = styled.div`
   min-width: 555px;
   width: 45%;
   max-height: 35%;
+  cursor: pointer;
+  border: 1px solid #E6E6F0;
+  padding: 10px;
 `;
 
 export const ImageEvent = styled.div`
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
   }
 `;
 
 export const InfoEvent = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   flex: 2;
 
   h3 {
@@ -75,13 +81,13 @@ export const InfoEvent = styled.div`
     font-size: 18px;
     line-height: 25px;
     color: #32264D;
-    padding: 10px;
+    padding: 15px;
   }
 
   div {
     display: flex;
     justify-content: start;
-    padding: 5px 10px;
+    padding: 5px 5px;
 
     img {
       margin-right: 5px;

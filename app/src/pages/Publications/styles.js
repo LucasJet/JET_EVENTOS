@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 0.2fr 2fr;
-  grid-template-rows: 6.3vh;
+  grid-template-rows: 5.5vw;
   grid-template-areas:
       "sidebar navbar"
       "sidebar containerGrid"
@@ -40,7 +40,7 @@ export const ContainerHeader = styled.div`
 
 export const ListPublications = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex-wrap: wrap;
 `;
 
@@ -48,10 +48,11 @@ export const CardPublication = styled.div`
   display: flex;
   flex-direction: column;
   margin: 15px 0px;
-  min-width: 400px;
-  width: 30%;
-  max-height: 35%;
+  min-width: 300px;
+  width: 27%;
+  height: 200px;
   padding: 15px 25px;
+  margin: 25px;
   cursor: pointer;
   
   background: #FFFFFF;

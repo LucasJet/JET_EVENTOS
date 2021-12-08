@@ -36,7 +36,7 @@ export const ContainerForm = styled.div`
   flex-direction: column;
   align-items: center;
   width: 65%;
-  height: 60%;
+  min-height: 50%;
   background-color: white;
   border: 1px solid #E6E6F0;
   box-sizing: border-box;
@@ -86,7 +86,7 @@ export const ContainerForm = styled.div`
     font-size: 18px;
     line-height: 26px;
     color: #FFFFFF;
-    margin-top: 60px;
+    margin: 50px 0px 10px 0px;
     width: 80%;
   }
 `

@@ -75,15 +75,25 @@ const getDashboard = (async (_request, response) => {
         percent: null,
     },
     {
+        title: 'Alunos ausentes',
+        total: 9,
+        percent: 22.5,
+    },
+    {
         title: 'Alunos totais',
         total: studentsBySeason.length,
         percent: null,
     },
     {
+        title: 'Alunos presentes',
+        total: 31,
+        percent: 87.5,
+    },
+    {
         title: 'Horas utilizadas em eventos',
         total: events.length,
         percent: null,
-    }
+    },
     ]
 
     const result = arrey;
