@@ -74,4 +74,5 @@ module.exports = {
   findByRole,
   edit,
   findOwnerEvent,
+  findById,
 };

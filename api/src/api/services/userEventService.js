@@ -12,7 +12,7 @@ const findOwnerUserEvent = async (id) => {
 };
 
 const remove = async (id, user, role) => {
-  const response = await findOwneruserEvent(id);
+  const response = await findOwnerUserEvent(id);
   try {
     if (response.userId === user || role === 'admin') {
       return UserEventModel.removeById(id);
@@ -25,21 +25,12 @@ const remove = async (id, user, role) => {
 };
 
 const create = async (userEvent) => {
-  if (error) {
-    throw new AppError('Entradas incorretas. Tente novamente.', 400);
-  }
-
-  return UserEventModel.create(value);
+  return UserEventModel.create(userEvent);
 };
 
 const edit = async (id, userEvent, role) => {
-
-  if (error) {
-    throw new AppError('Entradas incorretas. Tente novamente.', 400);
-  }
-
-  const response = await findOwneruserEvent(id);
-
+  const response = await findOwnerUserEvent(id);
+  
   if (response.userId === userEvent.userId || role === 'admin') {
     return UserEventModel.edit(id, userEvent);
   }

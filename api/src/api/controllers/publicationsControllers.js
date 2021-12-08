@@ -1,4 +1,5 @@
 const PublicationServices = require('../services/publicationService');
+const UsersServices = require('../services/usersService');
 
 const findAll = (async (_request, response) => {
     const results = await PublicationServices.findAll();
@@ -32,8 +33,11 @@ const create = (async (request, response) => {
     const { _id: user } = request.user;
     const created_at = new Date().toLocaleDateString("br-PT");
 
+    const username = await UsersServices.findById(user);
+    const fullname = username.fullname;
+
     const { _id, ...publication } = await PublicationServices.create({
-        title, description, created_at ,userId: user.toString(),
+        title, description, created_at, user: fullname,
     });
 
     response.status(201).json({
@@ -41,7 +45,7 @@ const create = (async (request, response) => {
             title: publication.title,
             description: publication.description,
             created_at,
-            userId: publication.userId,
+            user: fullname,
             _id,
         },
     });

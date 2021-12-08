@@ -20,7 +20,7 @@ const findById = (async (request, response) => {
 const create = (async (request, response) => {
     const { status, eventId } = request.body;
     const { _id: user } = request.user;
-
+    
     const { _id, ...userEvent } = await UserEventServices.create({
         status, eventId, userId: user.toString(),
     });

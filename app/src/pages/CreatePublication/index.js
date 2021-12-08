@@ -24,8 +24,6 @@ const CreatePublication = () => {
       title: document.getElementById('name-publication').value,
       description: document.getElementById('description-publication').value,
     }
-
-    console.log(body);
     await api.post('/publicacoes', body);
   }
 

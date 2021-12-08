@@ -30,7 +30,6 @@ const remove = async (id, user, role) => {
 const create = async (publication) => {
   const { value, error } = PublicationSchema.validate(publication);
 
-  console.log(error);
   if (error) {
     throw new AppError('Entradas incorretas. Tente novamente.', 400);
   }

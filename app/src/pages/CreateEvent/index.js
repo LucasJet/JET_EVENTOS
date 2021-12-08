@@ -40,7 +40,6 @@ const CreateEvent = () => {
       required: document.getElementById('attendence-event').checked,
     }
 
-    console.log(body);
     await api.post('/events', body);
   }
 
