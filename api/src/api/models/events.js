@@ -11,6 +11,11 @@ const findAll = async () => {
   return events.find().toArray();
 };
 
+const findAllPagination = async (skip, limit) => {
+  const events = await getEventsCollection();
+  return events.find().sort({ date: -1 }).skip(skip).limit(limit).toArray();
+};
+
 const findById = async (id) => {
   const event = await getEventsCollection();
   try {
@@ -67,4 +72,5 @@ module.exports = {
   edit,
   createImage,
   removeById,
+  findAllPagination,
 };

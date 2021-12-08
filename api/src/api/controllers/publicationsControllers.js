@@ -5,6 +5,15 @@ const findAll = (async (_request, response) => {
     response.json(results);
 });
 
+const getPublication = (async (request, response) => {
+    let page = parseInt(request.query.page);
+    let limit = parseInt(request.query.limit);
+    let skip = limit * (page - 1);
+
+    const publication = await PublicationServices.findAllPagination(skip, limit);
+    response.json(publication);
+});
+
 const findById = (async (request, response) => {
     const { id } = request.params; 
    
@@ -17,22 +26,21 @@ const findById = (async (request, response) => {
     }
 });
 
-
 const create = (async (request, response) => {
-
-    console.log(request.body);
 
     const { title, description } = request.body;
     const { _id: user } = request.user;
+    const created_at = new Date().toLocaleDateString("br-PT");
 
     const { _id, ...publication } = await PublicationServices.create({
-        title, description, userId: user.toString(),
+        title, description, created_at ,userId: user.toString(),
     });
 
     response.status(201).json({
         publication: {
             title: publication.title,
             description: publication.description,
+            created_at,
             userId: publication.userId,
             _id,
         },
@@ -63,4 +71,5 @@ module.exports = {
     create,
     edit,
     remove,
+    getPublication,
 };

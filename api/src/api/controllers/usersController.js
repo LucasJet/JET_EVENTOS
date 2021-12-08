@@ -1,3 +1,4 @@
+const { request } = require('express');
 const UsersServices = require('../services/usersService');
 
 const findAll = (async (_request, response) => {
@@ -46,8 +47,54 @@ const createAdmin = (async (request, response) => {
     } });
 });
 
+const getAllByRole = (async(request, response) => {
+
+    const { role } = request.params;
+    const results = await UsersServices.findByRole(role);
+
+    if (!results) {
+        response.status(404).json({ message: 'Não foram encontrados registros.' });
+    } else {
+        response.json(results);
+    }
+});
+
+
+const calculatePercentage = (async (request, response) => {
+
+    //fazer por último
+});
+
+const getAllStudentsBySeason = (async (request, response) => {
+
+    const students = await UsersServices.findByRole('admin');
+    
+    if (!students) {
+        response.status(404).json({ message: 'Não foram encontrados registros.' });
+    }
+
+    const results = students.filter(element => element.active === true);
+
+    if (!results) {
+        response.status(404).json({ message: 'Não foram encontrados registros.' });
+    } else {
+        response.json(results);
+    }
+});
+
+const edit = (async (request, response) => {
+    const { id } = request.params;
+    const { _id: user, role } = request.user;
+
+    const results = await UsersServices.edit(id, user, request.body, role);
+    response.json(results);
+});
 module.exports = {
     findAll,  
     create,
     createAdmin,
+    getAllByRole,
+    calculatePercentage,
+    getAllStudentsBySeason,
+    edit,
 };

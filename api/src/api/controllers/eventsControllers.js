@@ -5,11 +5,20 @@ const findAll = (async (_request, response) => {
     response.json(results);
 });
 
+const getEvent = (async (request, response) => {
+    let page = parseInt(request.query.page);
+    let limit = parseInt(request.query.limit);
+    let skip = limit * (page - 1);
+
+    const events = await EventServices.findAllPagination(skip, limit);
+    response.json(events);
+});
+
 const findById = (async (request, response) => {
     const { id } = request.params; 
    
     const result = await EventServices.findById(id);
-
+    console.log('caiu aqui');
     if (!result) {
         response.status(404).json({ message: 'Evento não encontrado' });
     } else {
@@ -18,19 +27,18 @@ const findById = (async (request, response) => {
 });
 
 const create = (async (request, response) => {
-    const { title, description, date_from, date_to, hour_from, hour_to, required } = request.body;
+    const { title, description, date, hour_from, hour_to, required } = request.body;
     const { _id: user } = request.user;
 
     const { _id, ...event } = await EventServices.create({
-        title, description, date_from, date_to, hour_from, hour_to, required, userId: user.toString(),
+        title, description, date, hour_from, hour_to, required, userId: user.toString(),
     });
 
     response.status(201).json({
         event: {
             title: event.title,
             description: event.description,
-            date_from: event.date_from,
-            date_to: event.date_to,
+            date: event.date,
             hour_from: event.hour_from,
             hour_to: event.hour_to,
             required: event.required,
@@ -68,6 +76,16 @@ const remove = (async (request, response) => {
     response.status(204).json({});
 });
 
+const calculateEventHours = (async (_request, response) => {
+    const events = await EventServices.findAll();
+    let soma = 0;
+    events.forEach((event) => {
+        soma += EventServices.calculateDiffTime(event.hour_from, event.hour_to);
+    });
+    const hours = soma/60;
+    response.json(hours);
+});
+
 module.exports = {
     findAll,
     findById,
@@ -75,4 +93,6 @@ module.exports = {
     edit,
     createImage,
     remove,
+    calculateEventHours,
+    getEvent,
 };

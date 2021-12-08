@@ -5,7 +5,7 @@ const authenticatedUser = require('../middlewares/authenticatedUser');
 const router = express.Router();
 const PublicationsControllers = require('../controllers/publicationsControllers');
 
-router.get('/', PublicationsControllers.findAll);
+router.get('/', PublicationsControllers.getPublication);
 router.get('/:id', PublicationsControllers.findById);
 
 router.post('/', authenticatedUser, PublicationsControllers.create);

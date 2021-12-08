@@ -11,6 +11,11 @@ const findAll = async () => {
   return publication.find().toArray();
 };
 
+const findAllPagination = async (skip, limit) => {
+  const publication = await getPublicationCollection();
+  return publication.find().sort({ created_at: -1 }).skip(skip).limit(limit).toArray();
+};
+
 const findById = async (id) => {
   const publication = await getPublicationCollection();
   try {
@@ -51,4 +56,5 @@ module.exports = {
   create,
   edit,
   removeById,
+  findAllPagination,
 };

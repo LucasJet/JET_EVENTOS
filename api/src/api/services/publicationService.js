@@ -4,6 +4,8 @@ const AppError = require('../errors/appError');
 
 const findAll = () => PublicationModel.findAll();
 
+const findAllPagination = (skip, limit) => PublicationModel.findAllPagination(skip, limit);
+
 const findById = (id) => PublicationModel.findById(id);
 
 const findOwnerPublication = async (id) => {
@@ -27,6 +29,8 @@ const remove = async (id, user, role) => {
 
 const create = async (publication) => {
   const { value, error } = PublicationSchema.validate(publication);
+
+  console.log(error);
   if (error) {
     throw new AppError('Entradas incorretas. Tente novamente.', 400);
   }
@@ -56,4 +60,5 @@ module.exports = {
   create,
   edit,
   remove,
+  findAllPagination,
 };
