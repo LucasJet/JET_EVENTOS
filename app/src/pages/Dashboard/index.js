@@ -73,8 +73,8 @@ const Dashboard = () => {
 
         <ContainerGraphics>
           <ContainerCards>
-            {graphicsCards.map((card) => (
-              <Card>
+            {graphicsCards.map((card, index) => (
+              <Card key={ index }>
                 <img src={ card.icon } alt="Icon card"/>
 
                 <InfoCard>
@@ -92,7 +92,7 @@ const Dashboard = () => {
               <h3>Últimos eventos</h3>
 
               <select name="select-orderby">
-                <option value="ascendente" selected>Ascendente</option>
+                <option value="ascendente" defaultValue>Ascendente</option>
                 <option value="descendente">Descendente</option>
               </select>
             </HeaderLastEvents>
@@ -100,8 +100,8 @@ const Dashboard = () => {
             <hr />
 
             <ListLastEvents>
-              {lastEvents.map((event) => (
-                <span>{event.title} -&nbsp;<b>{event.date}</b></span>
+              {lastEvents.map((event, index) => (
+                <span key={ index }>{event.title} -&nbsp;<b>{event.date}</b></span>
               ))}
             </ListLastEvents>
           </ContainerLastEvents>
