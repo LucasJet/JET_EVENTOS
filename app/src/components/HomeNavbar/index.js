@@ -14,7 +14,7 @@ const HomeNavbar = () => {
   return (
     <>
       <Nav>
-        <NavLogo to="/home">
+        <NavLogo to="/">
           <img src={ require('../../assets/logo-jet-azul.svg')} alt="Logo jet" />
         </NavLogo>
 

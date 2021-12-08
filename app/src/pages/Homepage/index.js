@@ -8,6 +8,8 @@ import {
 	ContainerInfoContato,
 } from "./styles";
 
+import './stylesCss.css'
+
 const Homepage = () => {
 	return (
 		<>

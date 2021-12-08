@@ -16,7 +16,6 @@ export const Container = styled.div`
 
   img {
     margin: 0px 15px;
-    cursor: pointer;
     width: 2%;
   }
 
@@ -29,6 +28,10 @@ export const Container = styled.div`
   #logo-avatar {
     margin: 0px 15px;
     width: 3%;
+  }
+
+  #icon-logout {
+    cursor: pointer;
   }
 `;
 

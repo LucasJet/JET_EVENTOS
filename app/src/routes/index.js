@@ -14,9 +14,9 @@ import CreatePublication from '../pages/CreatePublication';
 import CreateUser from '../pages/CreateUser';
 
 const Routes = () => (
-  <Switch> 
+  <Switch>
+    <Route path="/" exact component={Homepage} />
     <Route path="/login" exact component={Login} />
-    <Route path="/home" exact component={Homepage} isPrivate />
     <Route path="/dashboard" exact component={Dashboard} isPrivate />
     <Route path="/inicio" exact component={StudentPage} isPrivate />
     <Route path="/eventos" exact component={Events} isPrivate />
