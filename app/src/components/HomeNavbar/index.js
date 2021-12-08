@@ -1,9 +1,10 @@
 import React from "react";
+
 import {
   Nav,
   NavLogo,
   NavLink,
-  Bars,
+  // Bars,
   NavMenu,
   NavBtn,
   NavBtnLink,
@@ -13,21 +14,21 @@ const HomeNavbar = () => {
   return (
     <>
       <Nav>
-        <NavLogo to="/">
-          Logo
+        <NavLogo to="/home">
+          <img src={ require('../../assets/logo-jet-azul.svg')} alt="Logo jet" />
         </NavLogo>
-        <Bars />
 
         <NavMenu>
-          <NavLink to="/about" activeStyle>
+          <NavLink href="#sobre-nos" activeStyle>
             Sobre nós
           </NavLink>
-          <NavLink to="/contact" activeStyle>
+          <NavLink href="#contato" activeStyle>
             Contato
           </NavLink>
         </NavMenu>
+
         <NavBtn>
-          <NavBtnLink to="/sign-up">Sign In</NavBtnLink>
+          <NavBtnLink to="/login">Conectar</NavBtnLink>
         </NavBtn>
       </Nav>
     </>

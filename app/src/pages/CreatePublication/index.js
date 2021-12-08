@@ -39,6 +39,7 @@ const CreatePublication = () => {
           <HeaderCard>
             <img
               src={ require('../../assets/icon-arrow-blue.svg')}
+              alt="Arrow icon"
               onClick={ () => {
                 history.goBack()
               } }
@@ -74,7 +75,7 @@ const CreatePublication = () => {
 
               <FooterSave>
                 <div>
-                  <img src={ require('../../assets/icon-alert.svg') } />
+                  <img src={ require('../../assets/icon-alert.svg') } alt="Alert icon" />
                   <div>
                     <span>Importante!</span>
                     <span>Preencha todos os dados</span>

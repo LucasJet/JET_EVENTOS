@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 
 import SideBar from '../../components/SideBar';
 import Navbar from '../../components/Navbar';
 
 import api from '../../services/api';
+
+import ptBR from "date-fns/locale/pt-BR";
+import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
   Container,
@@ -21,15 +25,19 @@ import {
 const CreateEvent = () => {
   const history = useHistory()
 
+  const [date, setDate] = useState(new Date);
+  registerLocale("pt-BR", ptBR);
+
   async function createEvent() {
-    const body = {
+    let formatedData = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+
+    const body = {  
       title: document.getElementById('name-event').value,
       description: document.getElementById('description-event').value,
-      date: document.getElementById('date-event').value,
+      date: formatedData,
       hour_from: document.getElementById('hour-from-event').value,
       hour_to: document.getElementById('hour-to-event').value,
-      required: document.getElementById('attendence-event').value,
-      userId: document.getElementById('name-event').value,
+      required: document.getElementById('attendence-event').checked,
     }
 
     console.log(body);
@@ -46,6 +54,7 @@ const CreateEvent = () => {
           <HeaderCard>
             <img
               src={ require('../../assets/icon-arrow-blue.svg')}
+              alt="Arrow icon"
               onClick={ () => {
                 history.goBack()
               } }
@@ -58,7 +67,11 @@ const CreateEvent = () => {
 
             <hr />
 
-            <form onSubmit={ () =>createEvent() }>
+            <form onSubmit={ (e) => {
+              e.preventDefault()
+              createEvent()
+            } }
+            >
               <LabelFormInput htmlFor="name-event">
                 Nome do evento
                 <input
@@ -89,7 +102,13 @@ const CreateEvent = () => {
               <ContainerDate>
                 <LabelFormInput htmlFor="date-event">
                   Data
-                  <input id="date-event" type="date" required/>
+                  {/* <input id="date-event" type="date" required/> */}
+                  <ReactDatePicker
+                    selected={ date }
+                    onChange={ setDate }
+                    locale="pt-BR"
+                    dateFormat="dd/MM/yyyy"
+                  />
                 </LabelFormInput>
 
                 <LabelFormInput htmlFor="hour-from-event">
@@ -104,13 +123,13 @@ const CreateEvent = () => {
               </ContainerDate>
 
               <AttendanceMandatory htmlFor="attendence-event">
-                <input id="attendence-event" type="checkbox" required/>
+                <input id="attendence-event" type="checkbox" />
                 Presença obrigatória?
               </AttendanceMandatory>
 
               <FooterSave>
                 <div>
-                  <img src={ require('../../assets/icon-alert.svg') } />
+                  <img src={ require('../../assets/icon-alert.svg') } alt="icon-alert" />
                   <div>
                     <span>Importante!</span>
                     <span>Preencha todos os dados</span>
