@@ -18,7 +18,6 @@ const findById = (async (request, response) => {
     const { id } = request.params; 
    
     const result = await EventServices.findById(id);
-    console.log('caiu aqui');
     if (!result) {
         response.status(404).json({ message: 'Evento não encontrado' });
     } else {
@@ -86,6 +85,11 @@ const calculateEventHours = (async (_request, response) => {
     response.json(hours);
 });
 
+const getTotalEvents = (async (_request, response) => {
+    const events = await EventServices.findAll();
+    response.json(events.length);
+});
+
 module.exports = {
     findAll,
     findById,
@@ -95,4 +99,5 @@ module.exports = {
     remove,
     calculateEventHours,
     getEvent,
+    getTotalEvents,
 };

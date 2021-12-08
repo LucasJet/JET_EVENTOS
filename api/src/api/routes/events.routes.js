@@ -10,6 +10,7 @@ const EventsControllers = require('../controllers/eventsControllers');
 router.get('/', EventsControllers.getEvent);
 router.get('/:id', EventsControllers.findById);
 router.get('/hours/eventHours', EventsControllers.calculateEventHours);
+router.get('/quantity/getTotalEvents', EventsControllers.getTotalEvents);
 
 router.post('/', authenticatedUser, EventsControllers.create);
 
