@@ -1,5 +1,6 @@
 const { request } = require('express');
 const UsersServices = require('../services/usersService');
+const EventServices = require('../services/eventsService');
 
 const findAll = (async (_request, response) => {
     const results = await UsersServices.findAll();
@@ -8,8 +9,9 @@ const findAll = (async (_request, response) => {
 
 const create = (async (request, response) => {
     const { fullname, date_birth, email, city, school, password, active, role } = request.body;
+    const created_at = new Date().toLocaleDateString("br-PT");
     const { _id, ...user } = await UsersServices.create({
-        fullname, date_birth, email, city, school, password, active, role
+        fullname, date_birth, email, city, school, password, active, role, created_at
     });
 
     response.status(201).json({ user: {
@@ -21,7 +23,7 @@ const create = (async (request, response) => {
         password: user.password,
         active: user.active,
         role: user.role,
-        created_at: new Date(),
+        created_at,
         _id,
     } });
 });
@@ -59,6 +61,35 @@ const getAllByRole = (async(request, response) => {
     }
 });
 
+const getDashboard = (async (_request, response) => {
+
+    const users = await UsersServices.findAll();
+
+    const students = users.filter(element => element.role == "studentes");
+    const studentsBySeason = users.filter(element => element.role == "student" && element.created_at >= '01/01/2021' );
+    const events = await EventServices.findAll();
+
+    const arrey = [{
+        title: 'Alunos Matriculados',
+        total: students.length,
+        percent: null,
+    },
+    {
+        title: 'Alunos totais',
+        total: studentsBySeason.length,
+        percent: null,
+    },
+    {
+        title: 'Horas utilizadas em eventos',
+        total: events.length,
+        percent: null,
+    }
+    ]
+
+    const result = arrey;
+
+    response.json(result);
+});
 
 const calculatePercentage = (async (request, response) => {
 
@@ -67,7 +98,7 @@ const calculatePercentage = (async (request, response) => {
 
 const getAllStudentsBySeason = (async (request, response) => {
 
-    const students = await UsersServices.findByRole('admin');
+    const students = await UsersServices.findByRole('students');
     
     if (!students) {
         response.status(404).json({ message: 'Não foram encontrados registros.' });
@@ -89,6 +120,7 @@ const edit = (async (request, response) => {
     const results = await UsersServices.edit(id, user, request.body, role);
     response.json(results);
 });
+
 module.exports = {
     findAll,  
     create,
@@ -97,4 +129,5 @@ module.exports = {
     calculatePercentage,
     getAllStudentsBySeason,
     edit,
+    getDashboard,
 };

@@ -6,8 +6,9 @@ const UsersControllers = require('../controllers/usersController');
 const authenticatedUser = require('../middlewares/authenticatedUser');
 
 router.get('/', UsersControllers.findAll);
-router.get('/GetAllStudents/:role', UsersControllers.getAllByRole);
+router.get('/GetAllByRole/:role', UsersControllers.getAllByRole);
 router.get('/getAllStudentsBySeason', UsersControllers.getAllStudentsBySeason);
+router.get('/dashboard/getDashboard', UsersControllers.getDashboard);
 
 router.put('/:id', authenticatedUser, UsersControllers.edit);
 

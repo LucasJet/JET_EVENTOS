@@ -1,4 +1,5 @@
 const EventServices = require('../services/eventsService');
+const UserEventServices = require('../services/userEventService');
 
 const findAll = (async (_request, response) => {
     const results = await EventServices.findAll();
@@ -9,8 +10,19 @@ const getEvent = (async (request, response) => {
     let page = parseInt(request.query.page);
     let limit = parseInt(request.query.limit);
     let skip = limit * (page - 1);
-
     const events = await EventServices.findAllPagination(skip, limit);
+    const userEvents = await UserEventServices.findAll();
+
+    events.forEach(event => {
+        let userEvent = userEvents.find(element => element.userId == event.userId && element.eventId == event._id);
+
+        if (userEvent){
+            event.status = userEvent.status;
+        }else{
+            event.status = 'Pendente';
+        }    
+    });
+
     response.json(events);
 });
 

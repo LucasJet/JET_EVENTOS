@@ -20,6 +20,17 @@ const findById = async (id) => {
   } 
 };
 
+const findUserEvent = async (userId, eventId) => {
+  const UserEvent = await getUserEventsCollection();
+  const result = UserEvent.filter(element => element.userId == userId && element.eventId);
+
+  if (result.length > 0) {
+    return result;
+  } else {
+    return false;
+  }
+};
+
 const create = async (UserEvent) => {
   const UserEvents = await getUserEventsCollection();
 
@@ -51,4 +62,5 @@ module.exports = {
   create,
   edit,
   removeById,
+  findUserEvent,
 };

@@ -11,6 +11,8 @@ const findOwnerUserEvent = async (id) => {
   return userEventData;
 };
 
+const findStatusUserEvent = async (userId, eventId) => UserEventModel.findUserEvent(userId, eventId);
+
 const remove = async (id, user, role) => {
   const response = await findOwnerUserEvent(id);
   try {
@@ -44,4 +46,5 @@ module.exports = {
   create,
   edit,
   remove,
+  findStatusUserEvent,
 };

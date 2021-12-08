@@ -9,4 +9,5 @@ module.exports = joi.object({
   password: joi.string().required().max(100),
   active: joi.bool().required(),
   role: joi.string().default('student').max(7),
+  created_at: joi.string(),
 });
