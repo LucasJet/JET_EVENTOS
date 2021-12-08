@@ -1,12 +1,18 @@
 const express = require('express');
+const { required } = require('joi');
 
 const router = express.Router();
 const UsersControllers = require('../controllers/usersController');
 const authenticatedUser = require('../middlewares/authenticatedUser');
 
 router.get('/', UsersControllers.findAll);
+router.get('/GetAllByRole/:role', UsersControllers.getAllByRole);
+router.get('/getAllStudentsBySeason', UsersControllers.getAllStudentsBySeason);
+router.get('/dashboard/getDashboard', UsersControllers.getDashboard);
 
-router.post('/', UsersControllers.create);
-router.post('/admin', UsersControllers.createAdmin);
+router.put('/:id', authenticatedUser, UsersControllers.edit);
+
+router.post('/',UsersControllers.create);
+router.post('/admin', authenticatedUser, UsersControllers.createAdmin);
 
 module.exports = router;

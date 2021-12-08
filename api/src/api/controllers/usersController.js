@@ -1,4 +1,7 @@
+const { request } = require('express');
 const UsersServices = require('../services/usersService');
+const EventServices = require('../services/eventsService');
+const UserEventServices = require('../services/userEventService');
 
 const findAll = (async (_request, response) => {
     const results = await UsersServices.findAll();
@@ -6,15 +9,22 @@ const findAll = (async (_request, response) => {
 });
 
 const create = (async (request, response) => {
-    const { name, email, password } = request.body;
+    const { fullname, date_birth, email, city, school, password, active, role } = request.body;
+    const created_at = new Date().toLocaleDateString("br-PT");
     const { _id, ...user } = await UsersServices.create({
-        name, email, password,
+        fullname, date_birth, email, city, school, password, active, role, created_at
     });
 
     response.status(201).json({ user: {
-        name: user.name,
+        fullname: user.fullname,
+        date_birth: user.date_birth,
         email: user.email,
+        city: user.city,
+        school: user.school,
+        password: user.password,
+        active: user.active,
         role: user.role,
+        created_at,
         _id,
     } });
 });
@@ -28,15 +38,113 @@ const createAdmin = (async (request, response) => {
     );
 
     response.status(201).json({ user: {
-        name: user.name,
+        fullname: user.fullname,
+        date_birth: user.date_birth,
         email: user.email,
+        city: user.city,
+        school: user.school,
+        password: user.password,
+        active: user.active,
         role: user.role,
         _id,
     } });
+});
+
+const getAllByRole = (async(request, response) => {
+
+    const { role } = request.params;
+    const results = await UsersServices.findByRole(role);
+
+    if (!results) {
+        response.status(404).json({ message: 'Não foram encontrados registros.' });
+    } else {
+        response.json(results);
+    }
+});
+
+const getDashboard = (async (_request, response) => {
+
+    const users = await UsersServices.findAll();
+
+    const students = users.filter(element => element.role == "student");
+    const studentsBySeason = users.filter(element => element.role == "student" && element.active );
+    const events = await EventServices.findAll();
+
+    let soma = 0;
+    events.forEach((event) => {
+        soma += EventServices.calculateDiffTime(event.hour_from, event.hour_to);
+    });
+    const hours = soma / 60;
+
+    const arrey = [{
+        title: 'Alunos Matriculados',
+        total: studentsBySeason.length,
+        percent: null,
+    },
+    {
+        title: 'Alunos ausentes',
+        total: 9,
+        percent: 22.5,
+    },
+    {
+        title: 'Alunos totais',
+        total: students.length,
+        percent: null,
+    },
+    {
+        title: 'Alunos presentes',
+        total: 31,
+        percent: 87.5,
+    },
+    {
+        title: 'Horas utilizadas em eventos',
+        total: hours,
+        percent: null,
+    },
+    ]
+
+    const result = arrey;
+
+    response.json(result);
+});
+
+const calculatePercentage = (async (request, response) => {
+
+    //fazer por último
+});
+
+const getAllStudentsBySeason = (async (request, response) => {
+
+    const students = await UsersServices.findByRole('students');
+    
+    if (!students) {
+        response.status(404).json({ message: 'Não foram encontrados registros.' });
+    }
+
+    const results = students.filter(element => element.active === true);
+
+    if (!results) {
+        response.status(404).json({ message: 'Não foram encontrados registros.' });
+    } else {
+        response.json(results);
+    }
+});
+
+const edit = (async (request, response) => {
+    const { id } = request.params;
+    const { _id: user, role } = request.user;
+
+    const results = await UsersServices.edit(id, user, request.body, role);
+    response.json(results);
 });
 
 module.exports = {
     findAll,  
     create,
     createAdmin,
+    getAllByRole,
+    calculatePercentage,
+    getAllStudentsBySeason,
+    edit,
+    getDashboard,
 };

@@ -25,8 +25,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@SGP:token');
-    const user = localStorage.getItem('@SGP:user');
+    const token = localStorage.getItem('@JET:token');
+    const user = localStorage.getItem('@JET:user');
 
     if (token && user) {
       // vai definir como padrao um header com o nome authorization e isso se aplica a todas requisicoes
@@ -42,8 +42,8 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const { token, user } = response.data.token;
 
-    localStorage.setItem('@SGP:token', token);
-    localStorage.setItem('@SGP:user', JSON.stringify(user));
+    localStorage.setItem('@JET:token', token);
+    localStorage.setItem('@JET:user', JSON.stringify(user));
 
    api.defaults.headers.authorization = `${token}`;
 
@@ -51,8 +51,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@SGP:token');
-    localStorage.removeItem('@SGP:user');
+    localStorage.removeItem('@JET:token');
+    localStorage.removeItem('@JET:user');
 
     setData({} as AuthState);
   }, []);
