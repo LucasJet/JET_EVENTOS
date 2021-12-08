@@ -12,11 +12,15 @@ const getEvent = (async (request, response) => {
     let skip = limit * (page - 1);
     const events = await EventServices.findAllPagination(skip, limit);
     const userEvents = await UserEventServices.findAll();
+    const { _id: user } = request.user;
+    
+    console.log(user);
 
     events.forEach(event => {
-        let userEvent = userEvents.find(element => element.userId == event.userId && element.eventId == event._id);
+        let userEvent = userEvents.find(element => element.userId == user && element.eventId == event._id);
 
         if (userEvent){
+            console.log(event._id, event.userId);
             event.status = userEvent.status;
         }else{
             event.status = 'Pendente';

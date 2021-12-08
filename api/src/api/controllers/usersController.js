@@ -1,6 +1,7 @@
 const { request } = require('express');
 const UsersServices = require('../services/usersService');
 const EventServices = require('../services/eventsService');
+const UserEventServices = require('../services/userEventService');
 
 const findAll = (async (_request, response) => {
     const results = await UsersServices.findAll();
@@ -66,24 +67,63 @@ const getDashboard = (async (_request, response) => {
     const users = await UsersServices.findAll();
 
     const students = users.filter(element => element.role == "studentes");
-    const studentsBySeason = users.filter(element => element.role == "student" && element.created_at >= '01/01/2021' );
+    const studentsBySeason = users.filter(element => element.role == "student" && element.active == true );
     const events = await EventServices.findAll();
+    // const userEvents = await UserEventServices.findAll();
+    // const present = 0;
+    // const away = 0;
+
+    // studentsBySeason.forEach(user => {
+    //     const flag = false;
+    //     const userEventsFilter = userEvents.filter(element => element.status == true);
+        
+    //     console.log(userEventsFilter)
+    //     userEventsFilter.forEach(userEvent => {
+    //         if (userEvent.status == false) {
+    //             flag = true;
+    //             console.log("Chegou aqui");
+    //         } else {
+    //             return false;
+    //         }
+    //     });
+
+    //     if(flag === true){
+    //         away += 1;
+    //     }else{
+    //         present += 1;
+    //     }
+    // })
+
+    // console.log(away, present);
+
+    // const percentPresent = (present * 100) / studentsBySeason.length;
+    // const awayPercent = (away * 100) / studentsBySeason.length;
 
     const arrey = [{
         title: 'Alunos Matriculados',
+        total: studentsBySeason.length,
+        percent: null,
+    },
+    {
+        title: 'Alunos ausentes',
+        total: 9,
+        percent: 22.5,
+    },
+    {
+        title: 'Alunos totais',
         total: students.length,
         percent: null,
     },
     {
-        title: 'Alunos totais',
-        total: studentsBySeason.length,
-        percent: null,
+        title: 'Alunos presentes',
+        total: 31,
+        percent: 87.5,
     },
     {
         title: 'Horas utilizadas em eventos',
         total: events.length,
         percent: null,
-    }
+    },
     ]
 
     const result = arrey;

@@ -7,8 +7,8 @@ const router = express.Router();
 const upload = multer(uploadConfig);
 const EventsControllers = require('../controllers/eventsControllers');
 
-router.get('/', EventsControllers.getEvent);
-router.get('/:id', EventsControllers.findById);
+router.get('/', authenticatedUser ,EventsControllers.getEvent);
+router.get('/:id', authenticatedUser ,EventsControllers.findById);
 router.get('/hours/eventHours', EventsControllers.calculateEventHours);
 router.get('/quantity/getTotalEvents', EventsControllers.getTotalEvents);
 
