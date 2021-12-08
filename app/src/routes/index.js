@@ -11,6 +11,7 @@ import Events from '../pages/Events';
 import CreateEvent from '../pages/CreateEvent';
 import Publications from '../pages/Publications';
 import CreatePublication from '../pages/CreatePublication';
+import CreateUser from '../pages/CreateUser';
 
 const Routes = () => (
   <Switch> 
@@ -22,6 +23,7 @@ const Routes = () => (
     <Route path="/criar-eventos" exact component={CreateEvent} isPrivate />
     <Route path="/publicacoes" exact component={Publications} isPrivate />
     <Route path="/criar-publicacoes" exact component={CreatePublication} isPrivate />
+    <Route path="/criar-usuarios" exact component={CreateUser} isPrivate />
   </Switch>
 ); 
 

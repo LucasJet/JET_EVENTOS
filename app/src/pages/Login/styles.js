@@ -70,7 +70,7 @@ export const ContainerForm = styled.div`
 
     font-size: 18px;
     line-height: 24px;
-    color: #9C98A6;
+    color: #333136;
 
     margin: 10px 0px;
     width: 80%;

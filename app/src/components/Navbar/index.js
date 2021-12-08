@@ -36,7 +36,7 @@ const Navbar = () => {
         onClick={ () => {
           signOut()
           addToast({
-            type: 'sucesso',
+            type: 'success',
             title: 'Deslogado com sucesso!',
           });
         } }  

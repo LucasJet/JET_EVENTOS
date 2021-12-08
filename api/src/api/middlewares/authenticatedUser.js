@@ -4,7 +4,7 @@ const UserModel = require('../models/users');
 const AppError = require('../errors/appError');
 
 module.exports = async (request, _response, next) => {
-  const token = request.headers.authorization;
+  const token = request.headers.authorization.split(' ')[1];
   if (!token) throw new AppError('missing auth token', 401);
 
   try {

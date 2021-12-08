@@ -106,7 +106,7 @@ export const CardPublication = styled.div`
 `;
 
 export const TitlePublication = styled.h3`
-  font-size: 36px;
+  font-size: 1.6em;
   line-height: 45px;
   display: flex;
   align-items: center;

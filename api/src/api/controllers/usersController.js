@@ -66,8 +66,8 @@ const getDashboard = (async (_request, response) => {
 
     const users = await UsersServices.findAll();
 
-    const students = users.filter(element => element.role == "studentes");
-    const studentsBySeason = users.filter(element => element.role == "student" && element.active == true );
+    const students = users.filter(element => element.role == "student");
+    const studentsBySeason = users.filter(element => element.role == "student" && element.active );
     const events = await EventServices.findAll();
     // const userEvents = await UserEventServices.findAll();
     // const present = 0;

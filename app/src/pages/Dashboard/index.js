@@ -31,6 +31,7 @@ const Dashboard = () => {
       setIsLoaderActive(true)
       await api.get('/events?page=1&limit=8').then(events => setDataEvents(events.data));
     } catch (error) {
+      setIsLoaderActive(false)
       addToast({
         type: 'error',
         title: 'Erro interno na aplicação',
@@ -46,6 +47,7 @@ const Dashboard = () => {
       setIsLoaderActive(true)
       await api.get('/users/dashboard/getDashboard').then(dashboard => setDataDashboard(dashboard.data));
     } catch (error) {
+      setIsLoaderActive(false)
       addToast({
         type: 'error',
         title: 'Erro interno na aplicação',

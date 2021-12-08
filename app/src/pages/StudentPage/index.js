@@ -107,6 +107,12 @@ const Events = () => {
         title: 'Erro interno na aplicação',
         description: error.message ?? '',
       });
+    } finally {
+      setIsLoaderActive(false)
+      addToast({
+        type: 'success',
+        title: 'Salvo!',
+      });
     }
   }
 
@@ -131,7 +137,7 @@ const Events = () => {
                 key={index}
                 onClick={ () => {
                   setPublicationSelected(event)
-                  // handleOpen()
+                  handleOpen()
                 } }
               >
                 <TitlePublication>{ event.title }</TitlePublication>
@@ -153,9 +159,15 @@ const Events = () => {
                 </CardContent>
 
                 {event.status === 'Pendente' && (
-                  <ContainerButtonsEvent>
-                    <button onClick={ () => marcarPresenca(true, event._id) }>Estarei presente</button>
-                    <button onClick={ () => marcarPresenca(false, event._id) } style={ styleButton }>Não poderei ir</button>
+                  <ContainerButtonsEvent style={ { zIndex: 10 } }>
+                    <button onClick={ () => {
+                      marcarPresenca(true, event._id)
+                      handleClose()
+                    } }>Estarei presente</button>
+                    <button onClick={ () => {
+                      marcarPresenca(false, event._id)
+                      handleClose()
+                    } } style={ styleButton }>Não poderei ir</button>
                   </ContainerButtonsEvent>
                 )}
                 {event.status === true && (

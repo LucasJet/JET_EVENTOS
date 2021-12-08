@@ -22,6 +22,7 @@ const SideBar = () => {
       urlUser: '/inicio',
       urlAdmin: '/dashboard',
       route: '/dashboard',
+      private: false,
     },
     {
       titleUser: 'Eventos',
@@ -31,6 +32,7 @@ const SideBar = () => {
       urlAdmin: '/eventos?page=1&limit=8',
       route: '/eventos',
       routeCreate: '/criar-eventos',
+      private: false,
     },
     {
       titleUser: 'Publicações',
@@ -40,6 +42,14 @@ const SideBar = () => {
       urlAdmin: '/publicacoes?page=1&limit=8',
       route: '/publicacoes',
       routeCreate: '/criar-publicacoes',
+      private: false,
+    },
+    {
+      titleAdmin: 'Criar usuário',
+      icon: require('../../assets/icon-user.svg'),
+      urlAdmin: '/criar-usuarios',
+      routeCreate: '/criar-eventos',
+      private: true,
     },
   ]
 
@@ -56,6 +66,7 @@ const SideBar = () => {
       <img id="logo-jet" src={ require('../../assets/logo-jet.svg') } alt="Logo jet" />
 
       {SideBarTabs.map((tab, index) => (
+        !tab.private || user && (user.role === 'admin' || user.role === 'professor') ?
         <ContainerTab
           onClick={ () => {
             history.push(
@@ -67,7 +78,7 @@ const SideBar = () => {
             location.pathname === tab.routeCreate
             ||  location.pathname === tab.route
             ||  location.pathname === tab.urlUser
-            &&  (location.pathname !== '/inicio' && user && (user.role === 'admin' || user.role === 'professor'))
+            &&  !(location.pathname === '/inicio' && user && (user.role === 'admin' || user.role === 'professor'))
             ? styleSelectedTab : {}
           }
           key={ index }
@@ -79,6 +90,7 @@ const SideBar = () => {
             }
           </span>
         </ContainerTab>
+        : ''
       ))}
 
     </Container>

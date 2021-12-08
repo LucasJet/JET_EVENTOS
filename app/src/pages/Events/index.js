@@ -70,6 +70,7 @@ const Events = () => {
 
   async function getQuantityEvents() {
     try {
+      setIsLoaderActive(true)
       await api.get('/events/quantity/getTotalEvents').then(quantity => 
         setQuantityEvents(Math.ceil(quantity.data / 8))
       );

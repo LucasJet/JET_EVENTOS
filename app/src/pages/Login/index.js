@@ -24,7 +24,6 @@ const Login = () => {
         password: event.target.password.value,
       });
 
-      setIsLoaderActive(false)
       history.push('/inicio');
     } catch (error) {
       setIsLoaderActive(false)
